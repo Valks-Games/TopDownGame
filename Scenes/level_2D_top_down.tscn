@@ -1,16 +1,42 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=11 format=3 uid="uid://bn1te2u1gdk25"]
 
 [ext_resource type="Script" path="res://Scripts/2D Top Down/Player.cs" id="1_hrosf"]
 [ext_resource type="Texture2D" uid="uid://q80kt62wvbpp" path="res://Sprites/UI/icon.svg" id="2_83qsm"]
 [ext_resource type="PackedScene" uid="uid://c6pism2kgjr5c" path="res://Scenes/Prefabs/UI/popup_menu.tscn" id="2_ep4f7"]
+[ext_resource type="Texture2D" uid="uid://ikqp6wrrs5q1" path="res://Sprites/scithersword.png" id="3_usabc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4su66"]
 size = Vector2(125, 125)
 
+[sub_resource type="Gradient" id="Gradient_gbi4w"]
+offsets = PackedFloat32Array(0, 0.601594)
+colors = PackedColorArray(1, 1, 1, 0.247059, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_soacs"]
+gradient = SubResource("Gradient_gbi4w")
+
+[sub_resource type="Curve" id="Curve_l45w7"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_l8hnh"]
+curve = SubResource("Curve_l45w7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nh25r"]
+particle_flag_disable_z = true
+gravity = Vector3(0, -980, 0)
+orbit_velocity_min = 0.5
+orbit_velocity_max = 0.5
+scale_min = 60.0
+scale_max = 60.0
+scale_curve = SubResource("CurveTexture_l8hnh")
+color_ramp = SubResource("GradientTexture1D_soacs")
+
 [node name="Level" type="Node2D"]
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(531, 300)
+position = Vector2(520, 428)
+motion_mode = 1
 script = ExtResource("1_hrosf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
@@ -19,6 +45,28 @@ shape = SubResource("RectangleShape2D_4su66")
 [node name="Sprite2D" type="Sprite2D" parent="Player"]
 texture = ExtResource("2_83qsm")
 
+[node name="MeleePivot" type="Node2D" parent="Player"]
+
+[node name="Trail" type="GPUParticles2D" parent="Player/MeleePivot"]
+position = Vector2(231, -5)
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_nh25r")
+preprocess = 5.0
+interpolate = false
+trail_enabled = true
+trail_lifetime = 10.0
+trail_sections = 32
+
+[node name="Sword" type="Sprite2D" parent="Player/MeleePivot"]
+position = Vector2(184, -10)
+rotation = 0.785398
+scale = Vector2(2, 2)
+texture = ExtResource("3_usabc")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+zoom = Vector2(0.8, 0.8)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PopupMenu" parent="CanvasLayer" instance=ExtResource("2_ep4f7")]
+visible = false
