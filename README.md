@@ -11,6 +11,8 @@ Planning to work on
 
 https://github.com/valkyrienyanko/TopDownGame/assets/6277739/f71cba39-21e0-4d96-a57c-a0850cab2048
 
+![Untitled](https://github.com/valkyrienyanko/TopDownGame/assets/6277739/80e92051-b7fa-46d0-a88a-32cc0b44cf3c)
+
 ## Setup
 1. Download and install the [latest Godot 4 C# release](https://godotengine.org/)
 2. Clone this repository with all its submodules
