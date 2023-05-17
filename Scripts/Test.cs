@@ -34,11 +34,9 @@ public partial class Test : TextureRect
                 // Get one of the baked points from the biggest curve
                 var point = biggestCurvePoints[testIndex];
 
-                // This calculation is wrong. You can see the curve gets inverted
-                // too early when the slash gets smaller
-
-                // This calculation was eye balled through trial and error. It will
-                // most likely fail when the size changes from 128 to something else.
+                // This calculation was eye balled through trial and error.
+                // The calculation feels wrong. The curve looks wrong at certain
+                // snapshots when the curve gets smaller.
                 var curveReduction = (biggestCurvePoints.Length - testIndex) / 4;
 
                 testIndex--;
