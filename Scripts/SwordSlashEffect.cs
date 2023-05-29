@@ -1,6 +1,6 @@
 namespace Template;
 
-public partial class Test : TextureRect
+public partial class SwordSlashEffect : TextureRect
 {
     Vector2[] biggestCurvePoints;
 
