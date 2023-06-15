@@ -1,26 +1,12 @@
-namespace Template.TopDown2D;
+namespace RTS;
 
 public partial class Player : CharacterBody2D
 {
-    public float Speed    { get; set; } = 50;
+    public float Speed { get; set; } = 10;
     public float Friction { get; set; } = 0.1f;
-
-    private Node2D meleePivot;
-
-    public override void _Ready()
-    {
-        meleePivot = GetNode<Node2D>("MeleePivot");
-    }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Input.IsActionJustPressed("interact"))
-        {
-            var tween = new GTween(meleePivot);
-            tween.Create();
-            tween.Animate("rotation", Mathf.Pi / 2, 10);
-        }
-
         MoveAndSlide();
 
         // Velocity is mutiplied by delta for us already

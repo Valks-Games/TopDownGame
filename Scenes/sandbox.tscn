@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://c4u46pjmtx0n7"]
+
+[ext_resource type="PackedScene" uid="uid://c6pism2kgjr5c" path="res://Scenes/Prefabs/UI/popup_menu.tscn" id="2_gsvdn"]
+[ext_resource type="PackedScene" uid="uid://bglmbh851fwho" path="res://Scenes/Prefabs/player.tscn" id="2_gxn72"]
+[ext_resource type="Texture2D" uid="uid://q80kt62wvbpp" path="res://Sprites/UI/icon.svg" id="3_ecq8g"]
+[ext_resource type="Script" path="res://Scripts/Slime.cs" id="4_fv6rk"]
+
+[node name="Level" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("2_gxn72")]
+visible = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PopupMenu" parent="CanvasLayer" instance=ExtResource("2_gsvdn")]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(833, 240)
+texture = ExtResource("3_ecq8g")
+script = ExtResource("4_fv6rk")

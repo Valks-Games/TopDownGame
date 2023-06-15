@@ -1,10 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://c8hc2wbftdkwi"]
+[gd_scene load_steps=10 format=3 uid="uid://c8hc2wbftdkwi"]
 
-[ext_resource type="Script" path="res://Scripts/2D Top Down/Player.cs" id="1_hrosf"]
 [ext_resource type="Texture2D" uid="uid://rnudvfunt13j" path="res://Sprites/dungeon.png" id="1_vo7i3"]
-[ext_resource type="Texture2D" uid="uid://q80kt62wvbpp" path="res://Sprites/UI/icon.svg" id="2_83qsm"]
 [ext_resource type="PackedScene" uid="uid://c6pism2kgjr5c" path="res://Scenes/Prefabs/UI/popup_menu.tscn" id="2_ep4f7"]
-[ext_resource type="Texture2D" uid="uid://ikqp6wrrs5q1" path="res://Sprites/scithersword.png" id="3_usabc"]
+[ext_resource type="PackedScene" uid="uid://bglmbh851fwho" path="res://Scenes/Prefabs/player.tscn" id="2_p110e"]
 [ext_resource type="Script" path="res://Scripts/SwordSlashEffect.cs" id="5_oaahk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6mb58"]
@@ -306,9 +304,6 @@ terrain_set_0/terrain_0/name = "Terrain 0"
 terrain_set_0/terrain_0/color = Color(0.501961, 0, 0.0392157, 1)
 sources/1 = SubResource("TileSetAtlasSource_6mb58")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4su66"]
-size = Vector2(125, 125)
-
 [sub_resource type="Curve2D" id="Curve2D_grme2"]
 _data = {
 "points": PackedVector2Array(-243.192, 0.0621033, 50, 0, 0, 0, 0, -50, 6.14214, 270.664, 100, 100)
@@ -335,29 +330,7 @@ tile_set = SubResource("TileSet_omfsd")
 cell_quadrant_size = 64
 format = 2
 
-[node name="Player" type="CharacterBody2D" parent="."]
-visible = false
-position = Vector2(520, 428)
-motion_mode = 1
-script = ExtResource("1_hrosf")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-shape = SubResource("RectangleShape2D_4su66")
-
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
-texture = ExtResource("2_83qsm")
-
-[node name="MeleePivot" type="Node2D" parent="Player"]
-rotation = 0.203952
-
-[node name="Sword" type="Sprite2D" parent="Player/MeleePivot"]
-position = Vector2(184, -10)
-rotation = 0.785398
-scale = Vector2(2, 2)
-texture = ExtResource("3_usabc")
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-zoom = Vector2(0.8, 0.8)
+[node name="Player" parent="." instance=ExtResource("2_p110e")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
