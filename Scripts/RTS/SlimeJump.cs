@@ -27,7 +27,7 @@ public partial class Slime
                 .SetTrans(Tween.TransitionType.Sine);
             tweenPos.Callback(() => SwitchState(Idle()));
 
-            var tweenScale = new GTween(this);
+            var tweenScale = new GTween(sprite);
             tweenScale.Create();
             tweenScale.Animate("scale", Vector2.One * 3, duration / 2)
                 .SetTrans(Tween.TransitionType.Sine);
