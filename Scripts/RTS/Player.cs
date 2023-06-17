@@ -1,37 +1,23 @@
 namespace RTS;
 
-public partial class Player : CharacterBody2D
+public partial class Player : Entity
 {
     public float Speed { get; set; } = 10;
     public float Friction { get; set; } = 0.1f;
 
-    public override void _PhysicsProcess(double delta)
-    {
-        MoveAndSlide();
+    protected override State InitialState() => Move();
 
-        // Velocity is mutiplied by delta for us already
-        Velocity += GetMovementInput() * Speed;
-        Velocity = Velocity.Lerp(Vector2.Zero, Friction);
-    }
-
-    public override void _Input(InputEvent @event)
+    State Move()
     {
-        if (@event is InputEventMouseMotion motion)
+        var state = new State("Move");
+
+        state.Update = () =>
         {
-            //GD.Print(motion.Position);
-        }
-    }
+            // Velocity is mutiplied by delta for us already
+            Velocity += GUtils.GetMovementInput() * Speed;
+            Velocity = Velocity.Lerp(Vector2.Zero, Friction);
+        };
 
-    public Vector2 GetMovementInput(string prefix = "")
-    {
-        if (!string.IsNullOrWhiteSpace(prefix))
-            prefix += "_";
-
-        // GetActionStrength(...) supports controller sensitivity
-        var inputHorz = Input.GetActionStrength($"{prefix}move_right") - Input.GetActionStrength($"{prefix}move_left");
-        var inputVert = Input.GetActionStrength($"{prefix}move_down") - Input.GetActionStrength($"{prefix}move_up");
-
-        // Normalize vector to prevent fast diagonal strafing
-        return new Vector2(inputHorz, inputVert).Normalized();
+        return state;
     }
 }

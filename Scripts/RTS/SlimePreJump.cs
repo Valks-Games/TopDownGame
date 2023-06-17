@@ -11,8 +11,28 @@ public partial class Slime
         state.Enter = () =>
         {
             sprite.Play("pre_jump");
-            timerPreJump = new GTimer(this, 1000);
-            timerPreJump.Finished += () => SwitchState(Jump());
+            timerPreJump = new GTimer(this, DurationPreJump);
+            timerPreJump.Finished += () => 
+            {
+                if (player != null)
+                {
+                    // Jump towards player
+                    var diff = player.Position - Position;
+                    var dir = diff.Normalized();
+
+                    // Do not go past player
+                    var dist = Mathf.Min(diff.Length(), MaxJumpDist);
+
+                    var jumpPos = dir * dist;
+
+                    SwitchState(Jump(jumpPos));
+                }
+                else
+                {
+                    // Slide in random direction
+                    SwitchState(Slide());
+                }
+            };
             timerPreJump.Start();
         };
 

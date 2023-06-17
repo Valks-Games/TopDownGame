@@ -11,7 +11,7 @@ public partial class Slime
         state.Enter = () =>
         {
             sprite.Play("idle");
-            timerIdle = new GTimer(this, 1000);
+            timerIdle = new GTimer(this, DurationIdle);
             timerIdle.Finished += () => SwitchState(PreJump());
             timerIdle.Start();
         };

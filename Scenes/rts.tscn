@@ -1,10 +1,25 @@
-[gd_scene load_steps=13 format=3 uid="uid://20ccagt07hcn"]
+[gd_scene load_steps=14 format=3 uid="uid://20ccagt07hcn"]
 
 [ext_resource type="TileSet" uid="uid://cems042eylelv" path="res://Resources/Tilesets/grass_16.tres" id="1_ybika"]
 [ext_resource type="Script" path="res://Scripts/RTS/Player.cs" id="2_1qy10"]
 [ext_resource type="Texture2D" uid="uid://q80kt62wvbpp" path="res://Sprites/UI/icon.svg" id="2_em37k"]
 [ext_resource type="Texture2D" uid="uid://cj1t1dru1yhpq" path="res://Sprites/frog.png" id="4_cf6i8"]
 [ext_resource type="Script" path="res://Scripts/RTS/Slime.cs" id="4_dyxxg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fjwvk"]
+atlas = ExtResource("2_em37k")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ric8h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fjwvk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f6lr7"]
 size = Vector2(13, 13)
@@ -51,9 +66,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_elmjp"]
 size = Vector2(14, 10)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_6csc4"]
-radius = 82.0061
-
 [node name="Node2D" type="Node2D"]
 
 [node name="Grass" type="TileMap" parent="."]
@@ -70,9 +82,9 @@ layer_0/tile_data = PackedInt32Array(1572894, 393216, 4, 1114135, 393216, 4, 144
 position = Vector2(448, 503)
 script = ExtResource("2_1qy10")
 
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
 scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_em37k")
+sprite_frames = SubResource("SpriteFrames_ric8h")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("RectangleShape2D_f6lr7")
@@ -80,12 +92,11 @@ shape = SubResource("RectangleShape2D_f6lr7")
 [node name="Camera2D" type="Camera2D" parent="Player"]
 zoom = Vector2(5, 5)
 
-[node name="Slime" type="CharacterBody2D" parent="." node_paths=PackedStringArray("Player")]
+[node name="Slime" type="CharacterBody2D" parent="."]
 position = Vector2(559, 535)
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("4_dyxxg")
-Player = NodePath("../Player")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Slime"]
 sprite_frames = SubResource("SpriteFrames_gii3p")
@@ -96,6 +107,7 @@ position = Vector2(0, 3)
 shape = SubResource("RectangleShape2D_elmjp")
 
 [node name="DebugLabel" type="Label" parent="Slime"]
+visible = false
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -108,9 +120,3 @@ grow_horizontal = 2
 grow_vertical = 0
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Area2D" type="Area2D" parent="Slime"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Slime/Area2D"]
-shape = SubResource("CircleShape2D_6csc4")
-debug_color = Color(1, 0, 0.0745098, 0)

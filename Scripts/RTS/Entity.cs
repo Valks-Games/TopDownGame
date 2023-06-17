@@ -14,8 +14,11 @@ public abstract partial class Entity : CharacterBody2D
 
     public override void _Ready()
     {
-        label = GetNode<Label>("DebugLabel");
+        label = new GLabel();
         label.Visible = ShowStates;
+        label.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.CenterBottom);
+        AddChild(label);
+
         sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
         Init();
