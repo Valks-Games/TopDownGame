@@ -1,0 +1,76 @@
+[gd_scene load_steps=8 format=3 uid="uid://3q0ylr65w8rq"]
+
+[ext_resource type="Script" path="res://Scripts/RTS/Slime.cs" id="1_vil7y"]
+[ext_resource type="Texture2D" uid="uid://cj1t1dru1yhpq" path="res://Sprites/frog.png" id="2_8iuon"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vorkp"]
+atlas = ExtResource("2_8iuon")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w6lii"]
+atlas = ExtResource("2_8iuon")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j1b2x"]
+atlas = ExtResource("2_8iuon")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gii3p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vorkp")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w6lii")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j1b2x")
+}],
+"loop": true,
+"name": &"pre_jump",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_elmjp"]
+size = Vector2(14, 10)
+
+[node name="Slime" type="CharacterBody2D"]
+position = Vector2(559, 535)
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_vil7y")
+DurationIdle = 1500
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gii3p")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_elmjp")
+
+[node name="DebugLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -23.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+horizontal_alignment = 1
+vertical_alignment = 1

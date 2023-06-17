@@ -2,7 +2,7 @@
 
 public partial class Slime
 {
-    State Slide()
+    State Slide(Vector2 slidePos)
     {
         var state = new State("Slide");
 
@@ -13,7 +13,7 @@ public partial class Slime
             var tween = new GTween(this);
             tween.Create();
             tween.Animate("position",
-                finalValue: Position + GUtils.RandDir(GD.RandRange(10, 40)),
+                finalValue: slidePos,
                 duration: 0.75)
                 .SetTrans(Tween.TransitionType.Quint)
                 .SetEase(Tween.EaseType.Out);

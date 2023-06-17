@@ -12,7 +12,7 @@ public partial class Slime
         {
             sprite.Play("pre_jump");
             timerPreJump = new GTimer(this, DurationPreJump);
-            timerPreJump.Finished += () => 
+            timerPreJump.Finished += async () => 
             {
                 if (player != null)
                 {
@@ -30,7 +30,40 @@ public partial class Slime
                 else
                 {
                     // Slide in random direction
-                    SwitchState(Slide());
+                    Vector2 slidePos = Vector2.Zero;
+                    var foundPath = false;
+
+                    while (!foundPath)
+                    {
+                        void CalculateSlidePos() =>
+                            slidePos = Position + GUtils.RandDir(GD.RandRange(10, 40))
+                                - sprite.GetSize();
+
+                        CalculateSlidePos();
+                        var raycast = new RayCast2D
+                        {
+                            TargetPosition = slidePos - Position
+                        };
+                        raycast.AddException(this);
+                        AddChild(raycast);
+
+                        await GUtils.WaitOneFrame(this);
+
+                        if (raycast.IsColliding())
+                        {
+                            if (raycast.GetCollider() is TileMap tileMap)
+                                if (tileMap.Name == "Trees")
+                                    CalculateSlidePos();
+                        }
+                        else
+                        {
+                            foundPath = true;
+                        }
+
+                        raycast.QueueFree();
+                    }
+                    
+                    SwitchState(Slide(slidePos));
                 }
             };
             timerPreJump.Start();
