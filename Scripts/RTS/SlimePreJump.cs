@@ -31,38 +31,37 @@ public partial class Slime
                 {
                     // Slide in random direction
                     Vector2 slidePos = Vector2.Zero;
-                    var foundPath = false;
 
-                    while (!foundPath)
+                    Vector2 CalculateSlidePos()
                     {
-                        void CalculateSlidePos() =>
-                            slidePos = Position + GUtils.RandDir(GD.RandRange(10, 40))
-                                - sprite.GetSize();
+                        var dir = GUtils.RandDir();
+                        var dist = GD.RandRange(10, 40);
 
-                        CalculateSlidePos();
-                        var raycast = new RayCast2D
-                        {
-                            TargetPosition = slidePos - Position
-                        };
-                        raycast.AddException(this);
-                        AddChild(raycast);
+                        slidePos = Position + (dist * dir);
 
-                        await GUtils.WaitOneFrame(this);
-
-                        if (raycast.IsColliding())
-                        {
-                            if (raycast.GetCollider() is TileMap tileMap)
-                                if (tileMap.Name == "Trees")
-                                    CalculateSlidePos();
-                        }
-                        else
-                        {
-                            foundPath = true;
-                        }
-
-                        raycast.QueueFree();
+                        return dir;
                     }
-                    
+
+                    var dir = CalculateSlidePos();
+                    var raycast = new RayCast2D
+                    {
+                        TargetPosition = slidePos - Position
+                    };
+                    raycast.AddException(this);
+
+                    AddChild(raycast);
+
+                    // Required for the raycast to do its job
+                    await GUtils.WaitOneFrame(this);
+
+                    if (raycast.IsColliding())
+                    {
+                        slidePos = raycast.GetCollisionPoint() -
+                            (dir * (sprite.GetSize() / 2));
+                    }
+
+                    raycast.QueueFree();
+
                     SwitchState(Slide(slidePos));
                 }
             };
@@ -71,7 +70,7 @@ public partial class Slime
 
         state.Update = () =>
         {
-            var str = 0.3;
+            var str = player == null ? 0.05 : 0.4;
             var randX = (float)GD.RandRange(-str, str);
             var randY = (float)GD.RandRange(-str, str);
             sprite.Offset = new Vector2(randX, randY);
