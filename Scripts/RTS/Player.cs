@@ -9,12 +9,10 @@ public partial class Player : Entity
     {
         var pixelChunkSize = World.ChunkSize * World.TileSize;
 
-        var chunkX = (int)(Position.X) / (pixelChunkSize);
-        var chunkY = (int)(Position.Y) / (pixelChunkSize);
+        var chunkX = Mathf.Floor(Position.X / pixelChunkSize);
+        var chunkY = Mathf.Floor(Position.Y / pixelChunkSize);
 
-        GD.Print(new Vector2(chunkX, chunkY));
-
-        World.Instance.GenerateChunk(chunkX, chunkY);
+        World.Instance.GenerateChunk((int)chunkX, (int)chunkY);
     }
 
     protected override State InitialState() => Move();
