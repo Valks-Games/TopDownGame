@@ -19,7 +19,7 @@ tile_set = ExtResource("1_ybika")
 format = 2
 
 [node name="Player" parent="." instance=ExtResource("3_8ce75")]
-position = Vector2(0, 0)
+position = Vector2(41, 35)
 
 [node name="Slime" parent="." instance=ExtResource("4_guf0v")]
 position = Vector2(66, 0)

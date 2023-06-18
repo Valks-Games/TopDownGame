@@ -13,9 +13,10 @@ public partial class World : Node
         { "tree_1", new Vector2I(6, 4) }
     };
 
-    public static int ChunkSize { get; } = 4;
+    public static int ChunkSize { get; } = 10;
     public static int TileSize { get; } = 16;
-    public static int SpawnChunkSize { get; } = 1;
+    public static int SpawnRadius { get; } = 3;
+    public static Dictionary<Vector2I, bool> ChunkGenerated { get; } = new();
 
     [Export] public TileMap Grass { get; set; }
     [Export] public TileMap Trees { get; set; }
@@ -36,14 +37,15 @@ public partial class World : Node
 
     public void GenerateChunk(int x, int y)
     {
+        World.ChunkGenerated[new Vector2I(x, y)] = true;
         new Chunk(x, y, Grass, noise);
     }
 
     void GenerateSpawn()
     {
-        for (int x = 0; x < SpawnChunkSize; x++)
+        for (int x = -SpawnRadius; x <= SpawnRadius; x++)
         {
-            for (int y = 0; y < SpawnChunkSize; y++)
+            for (int y = -SpawnRadius; y <= SpawnRadius; y++)
             {
                 new Chunk(x, y, Grass, noise);
             }
