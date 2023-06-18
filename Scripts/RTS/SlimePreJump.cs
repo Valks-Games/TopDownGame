@@ -11,58 +11,21 @@ public partial class Slime
         state.Enter = () =>
         {
             sprite.Play("pre_jump");
+
+            var tween = new GTween(sprite);
+            tween.Create();
+            tween.Animate("scale", new Vector2(1.1f, 0.9f), DurationPreJump / 1000d);
+
             timerPreJump = new GTimer(this, DurationPreJump);
-            timerPreJump.Finished += async () => 
+            timerPreJump.Finished += () => 
             {
                 if (player != null)
                 {
-                    // Jump towards player
-                    var diff = player.Position - Position;
-                    var dir = diff.Normalized();
-
-                    // Do not go past player
-                    var dist = Mathf.Min(diff.Length(), MaxJumpDist);
-
-                    var jumpPos = dir * dist;
-
-                    SwitchState(Jump(jumpPos));
+                    SwitchState(Jump());
                 }
                 else
                 {
-                    // Slide in random direction
-                    Vector2 slidePos = Vector2.Zero;
-
-                    Vector2 CalculateSlidePos()
-                    {
-                        var dir = GUtils.RandDir();
-                        var dist = GD.RandRange(10, 40);
-
-                        slidePos = Position + (dist * dir);
-
-                        return dir;
-                    }
-
-                    var dir = CalculateSlidePos();
-                    var raycast = new RayCast2D
-                    {
-                        TargetPosition = slidePos - Position
-                    };
-                    raycast.AddException(this);
-
-                    AddChild(raycast);
-
-                    // Required for the raycast to do its job
-                    await GUtils.WaitOneFrame(this);
-
-                    if (raycast.IsColliding())
-                    {
-                        slidePos = raycast.GetCollisionPoint() -
-                            (dir * (sprite.GetSize() / 2));
-                    }
-
-                    raycast.QueueFree();
-
-                    SwitchState(Slide(slidePos));
+                    SwitchState(Slide());
                 }
             };
             timerPreJump.Start();
@@ -79,6 +42,7 @@ public partial class Slime
         state.Exit = () =>
         {
             sprite.Offset = Vector2.Zero;
+            sprite.Scale = Vector2.One;
         };
 
         return state;

@@ -2,13 +2,22 @@
 
 public partial class Slime
 {
-    State Jump(Vector2 jumpPos)
+    State Jump()
     {
         var state = new State("Jump");
 
         state.Enter = () =>
         {
             sprite.Play("idle");
+
+            // Jump towards player
+            var diff = player.Position - Position;
+            var dir = diff.Normalized();
+
+            // Do not go past player
+            var dist = Mathf.Min(diff.Length(), MaxJumpDist);
+
+            var jumpPos = dir * dist;
 
             var duration = 0.75d;
 
@@ -21,7 +30,7 @@ public partial class Slime
 
             var tweenScale = new GTween(sprite);
             tweenScale.Create();
-            tweenScale.Animate("scale", Vector2.One * 3, duration / 2)
+            tweenScale.Animate("scale", new Vector2(3, 4), duration / 2)
                 .SetTrans(Tween.TransitionType.Sine)
                 .SetEase(Tween.EaseType.Out);
             tweenScale.Animate("scale", Vector2.One, duration / 2)
