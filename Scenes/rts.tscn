@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://20ccagt07hcn"]
+[gd_scene load_steps=6 format=3 uid="uid://20ccagt07hcn"]
 
 [ext_resource type="Script" path="res://Scripts/RTS/World.cs" id="1_6qhqq"]
 [ext_resource type="TileSet" uid="uid://cems042eylelv" path="res://Resources/Tilesets/grass_16.tres" id="1_ybika"]
 [ext_resource type="PackedScene" uid="uid://xoi0vfie6qq2" path="res://Scenes/Prefabs/player_rts.tscn" id="3_8ce75"]
 [ext_resource type="PackedScene" uid="uid://3q0ylr65w8rq" path="res://Scenes/Prefabs/slime.tscn" id="4_guf0v"]
+[ext_resource type="Script" path="res://Scripts/UI/UICardManager.cs" id="5_m8s8e"]
 
 [node name="World" type="Node2D" node_paths=PackedStringArray("Grass", "Trees")]
 script = ExtResource("1_6qhqq")
@@ -17,9 +18,31 @@ format = 2
 [node name="Trees" type="TileMap" parent="."]
 tile_set = ExtResource("1_ybika")
 format = 2
+layer_0/tile_data = PackedInt32Array(131072, 393216, 4, 262146, 393216, 4, 196611, 393216, 4, 1, 393216, 4, -65534, 393216, 4, -131070, 393216, 4, -131069, 393216, 4, -131068, 393216, 4, -131067, 393216, 4, -131066, 393216, 4, -65531, 393216, 4, 5, 393216, 4, 65541, 393216, 4, 65540, 393216, 4, 65539, 393216, 4, 65538, 393216, 4, 2, 393216, 4)
 
 [node name="Player" parent="." instance=ExtResource("3_8ce75")]
 position = Vector2(41, 35)
 
 [node name="Slime" parent="." instance=ExtResource("4_guf0v")]
 position = Vector2(66, 0)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 4
+script = ExtResource("5_m8s8e")
+TotalCards = 1
