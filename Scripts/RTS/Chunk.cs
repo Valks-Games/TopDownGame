@@ -7,7 +7,9 @@ public class Chunk
     public Chunk(int chunkX, int chunkY, TileMap tileMap, Noise noise, bool generate = true)
     {
         this.tileMap = tileMap;
-        if(generate) this.GenerateWorld(chunkX, chunkY, tileMap, noise);
+
+        if (generate) 
+            this.GenerateWorld(chunkX, chunkY, tileMap, noise);
     }
 
     void GenerateWorld(int chunkX, int chunkY, TileMap tileMap, Noise noise)
@@ -33,7 +35,9 @@ public class Chunk
                     }
                 }
 
-                if(type != "") SetCell(globalX, globalY, World.Atlas[type].TilePosition);
+                if (type != string.Empty) 
+                    SetCell(globalX, globalY, World.Atlas[type].TilePosition);
+
                 // GD.PrintErr not printing to console in editor?
                 else GD.PrintErr("No type found for noise: " + currentNoise);
             }
@@ -42,5 +46,4 @@ public class Chunk
 
     void SetCell(int x, int y, Vector2I type) =>
         tileMap.SetCell(0, new Vector2I(x, y), 0, type);
-
 }
