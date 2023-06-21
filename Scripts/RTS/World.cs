@@ -1,6 +1,3 @@
-using Godot;
-using System.Drawing;
-
 namespace RTS;
 
 public partial class World : Node

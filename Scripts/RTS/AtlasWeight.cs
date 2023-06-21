@@ -1,5 +1,4 @@
 namespace RTS;
-using Godot;
 
 public class AtlasWeight
 {
