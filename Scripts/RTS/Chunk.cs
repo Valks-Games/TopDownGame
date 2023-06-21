@@ -9,10 +9,10 @@ public class Chunk
         this.tileMap = tileMap;
 
         if (generate) 
-            this.GenerateWorld(chunkX, chunkY, tileMap, noise);
+            this.GenerateChunk(chunkX, chunkY, tileMap, noise);
     }
 
-    void GenerateWorld(int chunkX, int chunkY, TileMap tileMap, Noise noise)
+    void GenerateChunk(int chunkX, int chunkY, TileMap tileMap, Noise noise)
     {
         for (int x = 0; x < World.ChunkSize; x++)
         {
