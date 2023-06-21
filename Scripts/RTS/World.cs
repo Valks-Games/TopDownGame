@@ -3,10 +3,14 @@ namespace RTS;
 public partial class World : Node
 {
     public static World Instance { get; private set; }
-    public static Dictionary<string, AtlasWeight> Atlas { get; } = new()
+    public static Dictionary<string, AtlasWeight> AtlasGrass { get; } = new()
     {
         { "grass_1", new AtlasWeight(new Vector2I(3, 1), 0.3f) },
-        { "grass_2", new AtlasWeight(new Vector2I(0, 8), 1f) },
+        { "grass_2", new AtlasWeight(new Vector2I(0, 8), 1f) }
+    };
+
+    public static Dictionary<string, AtlasWeight> AtlasTrees { get; } = new()
+    {
         { "tree_1",  new AtlasWeight(new Vector2I(6, 4), 0.1f) }
     };
 
