@@ -1,4 +1,6 @@
-﻿namespace RTS;
+﻿using Godot;
+
+namespace RTS;
 
 public class Chunk
 {
@@ -15,29 +17,30 @@ public class Chunk
     void GenerateChunk(int chunkX, int chunkY, TileMap tileMap, Noise noise)
     {
         for (int x = 0; x < World.ChunkSize; x++)
-        {
             for (int y = 0; y < World.ChunkSize; y++)
+                GenerateTile(chunkX, chunkY, x, y, tileMap, noise);
+    }
+
+    void GenerateTile(int chunkX, int chunkY, int x, int y, TileMap tileMap, Noise noise)
+    {
+        var globalX = (chunkX * World.ChunkSize) + x;
+        var globalY = (chunkY * World.ChunkSize) + y;
+
+        string type = "";
+        var currentNoise = noise.GetNoise2D(globalX, globalY);
+        var name = ((string) (this.tileMap.Name)).ToLower();
+        var limitedAtlas = World.Atlas.Where(pair => pair.Key.ToLower().Contains(name)).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+        foreach (var atlasValue in limitedAtlas)
+        {
+            if (currentNoise < atlasValue.Value.Weight)
             {
-                var globalX = (chunkX * World.ChunkSize) + x;
-                var globalY = (chunkY * World.ChunkSize) + y;
-
-                string type = "";
-                var currentNoise = noise.GetNoise2D(globalX, globalY);
-                var name = ((string) (this.tileMap.Name)).ToLower();
-                var limitedAtlas = World.Atlas.Where(pair => pair.Key.ToLower().Contains(name)).ToDictionary(pair => pair.Key, pair => pair.Value);
-
-                foreach (var atlasValue in limitedAtlas)
-                {
-                    if (currentNoise < atlasValue.Value.Weight)
-                    {
-                        type = atlasValue.Key;
-                        break;
-                    }
-                }
-
-                SetCell(globalX, globalY, World.Atlas[type].TilePosition);
+                type = atlasValue.Key;
+                break;
             }
         }
+
+        SetCell(globalX, globalY, World.Atlas[type].TilePosition);
     }
 
     void SetCell(int x, int y, Vector2I type) =>
