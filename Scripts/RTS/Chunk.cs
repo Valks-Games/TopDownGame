@@ -38,7 +38,9 @@ public class Chunk
             }
         }
 
-        SetCell(globalX, globalY, World.Atlas[type].TilePosition);
+        SetCell(globalX, globalY, !string.IsNullOrWhiteSpace(type) ?
+            World.AtlasGrass[type].TilePosition :
+            World.AtlasGrass.First().Value.TilePosition);
     }
 
     void SetCell(int x, int y, Vector2I type) =>
