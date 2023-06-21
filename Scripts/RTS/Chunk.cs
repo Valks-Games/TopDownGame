@@ -37,9 +37,8 @@ public class Chunk
 
                 if (type != string.Empty) 
                     SetCell(globalX, globalY, World.Atlas[type].TilePosition);
-
-                // GD.PrintErr not printing to console in editor?
-                else GD.PrintErr("No type found for noise: " + currentNoise);
+                else 
+                    GD.Print("No type found for noise: " + currentNoise);
             }
         }
     }
