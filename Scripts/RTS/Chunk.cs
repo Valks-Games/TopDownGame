@@ -23,7 +23,7 @@ public class Chunk
                 string type = "";
                 var currentNoise = noise.GetNoise2D(globalX, globalY);
                 var name = ((string) (this.tileMap.Name)).ToLower();
-                var limitedAtlas = World.Atlas.Where(pair => pair.Key.Contains(name)).ToDictionary(pair => pair.Key, pair => pair.Value);
+                var limitedAtlas = World.Atlas.Where(pair => pair.Key.ToLower().Contains(name)).ToDictionary(pair => pair.Key, pair => pair.Value);
 
                 foreach (var atlasValue in limitedAtlas)
                 {
