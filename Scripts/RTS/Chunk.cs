@@ -35,10 +35,7 @@ public class Chunk
                     }
                 }
 
-                if (type != string.Empty) 
-                    SetCell(globalX, globalY, World.Atlas[type].TilePosition);
-                else 
-                    GD.Print("No type found for noise: " + currentNoise);
+                SetCell(globalX, globalY, World.Atlas[type].TilePosition);
             }
         }
     }
