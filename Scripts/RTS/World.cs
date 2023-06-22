@@ -3,16 +3,16 @@ namespace RTS;
 public partial class World : Node
 {
     public static World Instance { get; private set; }
-    public static Dictionary<string, AtlasWeight> AtlasGrass { get; } = new()
+    public static Dictionary<string, AtlasWeight> AtlasGrass { get; } =  SortAtlasByWeight(new() 
     {
         { "grass_1", new AtlasWeight(new Vector2I(3, 1), 0.3f) },
         { "grass_2", new AtlasWeight(new Vector2I(0, 8), 1f) }
-    };
+    });
 
-    public static Dictionary<string, AtlasWeight> AtlasTrees { get; } = new()
+    public static Dictionary<string, AtlasWeight> AtlasTrees { get; } = SortAtlasByWeight(new()
     {
         { "tree_1",  new AtlasWeight(new Vector2I(6, 4), 0.1f) }
-    };
+    });
 
     public static int ChunkSize { get; } = 10;
     public static int TileSize { get; } = 16;
@@ -52,4 +52,8 @@ public partial class World : Node
             }
         }
     }
+
+    static Dictionary<string, AtlasWeight>  SortAtlasByWeight(Dictionary<string, AtlasWeight> Atlas) =>
+        Atlas.OrderBy(pair => pair.Value.Weight).ToDictionary(pair => pair.Key, pair => pair.Value);
+
 }
