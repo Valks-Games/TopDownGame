@@ -5,12 +5,14 @@ public partial class World : Node
     public static World Instance { get; private set; }
     public static Dictionary<string, AtlasWeight> AtlasGrass { get; } =  TransformWeightsToRange(new() 
     {
-        { "grass_1", new AtlasWeight(new Vector2I(3, 1), 10f) },
+        { "empty",   new AtlasWeight(new Vector2I(0, 0), 0f) },
+        { "grass_1", new AtlasWeight(new Vector2I(3, 1), 20f) },
         { "grass_2", new AtlasWeight(new Vector2I(0, 8), 10f) }
     });
 
     public static Dictionary<string, AtlasWeight> AtlasTrees { get; } = TransformWeightsToRange(new()
     {
+        { "empty",   new AtlasWeight(new Vector2I(0, 0), 0f) },
         { "tree_1",  new AtlasWeight(new Vector2I(6, 4), 10f) }
     });
 
@@ -69,6 +71,7 @@ public partial class World : Node
             AtlasWeight atlasWeight = pair.Value;
             float weight = atlasWeight.Weight;
     
+            // We're going from a range of [0, 1] to [-1, 1], so multiply by 2
             currentValue += weight / totalWeight * 2;
     
             result.Add(pair.Key, new AtlasWeight(atlasWeight.TilePosition, currentValue));

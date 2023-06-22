@@ -38,11 +38,13 @@ public class Chunk
             }
         }
 
-        SetCell(globalX, globalY, !string.IsNullOrWhiteSpace(type) ?
+        SetCell(globalX, globalY, type, !string.IsNullOrWhiteSpace(type) ?
             World.AtlasGrass[type].TilePosition :
             World.AtlasGrass.First().Value.TilePosition);
     }
 
-    void SetCell(int x, int y, Vector2I type) =>
-        tileMap.SetCell(0, new Vector2I(x, y), 0, type);
+    void SetCell(int x, int y, string typeName, Vector2I type)
+    {
+        if (typeName != "empty")  tileMap.SetCell(0, new Vector2I(x, y), 0, type);
+    }
 }
