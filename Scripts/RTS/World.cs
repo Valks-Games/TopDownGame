@@ -55,24 +55,22 @@ public partial class World : Node
 
     public static Dictionary<string, AtlasWeight> TransformWeightsToRange(Dictionary<string, AtlasWeight> dictionary)
     {
-        
         Dictionary<string, AtlasWeight> result = new();
+
         float totalWeight = 0f;
-    
-        // Find the minimum and maximum weights in the dictionary
         foreach (var pair in dictionary) totalWeight += pair.Value.Weight;
     
+        // Set current value to the lowerbound of the range
         float currentValue = -1;
-        // Transform the weights to be between [-1, 1]
+
+        // Transform the weights to be between [-1, 1], as per FastNoiseLite range
         foreach (var pair in dictionary)
         {
             AtlasWeight atlasWeight = pair.Value;
             float weight = atlasWeight.Weight;
     
-            // Apply the transformation formula
             currentValue += weight / totalWeight * 2;
     
-            // Update the weight value in the AtlasWeight object
             result.Add(pair.Key, new AtlasWeight(atlasWeight.TilePosition, currentValue));
         }
         return result;
