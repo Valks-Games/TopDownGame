@@ -15,16 +15,16 @@ public partial class World : Node
     [Export] public TileMap Grass { get; set; }
     [Export] public TileMap Trees { get; set; }
 
-    Dictionary<string, AtlasWeight> tileDataGrass { get; } = TransformWeightsToRange(new()
-    {
+    Dictionary<string, AtlasWeight> tileDataGrass { get; } = new()
+    {  
         { "grass_1", new AtlasWeight(new Vector2I(3, 1), 10f) },
         { "grass_2", new AtlasWeight(new Vector2I(0, 8), 10f) }
-    });
+    };
 
-    Dictionary<string, AtlasWeight> tileDataTrees { get; } = TransformWeightsToRange(new()
+    Dictionary<string, AtlasWeight> tileDataTrees { get; } = new()
     {
         { "tree_1",  new AtlasWeight(new Vector2I(6, 4), 10f) }
-    });
+    };
 
     public override void _Ready()
     {
@@ -42,7 +42,7 @@ public partial class World : Node
         };
 
         Atlases.Add(new(Grass, grassNoise, tileDataGrass));
-        Atlases.Add(new(Trees, treeNoise, tileDataTrees));
+        Atlases.Add(new(Trees, treeNoise, tileDataTrees, 30f));
 
         GenerateSpawn();
     }
@@ -64,27 +64,6 @@ public partial class World : Node
         }
     }
 
-    public static Dictionary<string, AtlasWeight> TransformWeightsToRange(Dictionary<string, AtlasWeight> dictionary)
-    {
-        Dictionary<string, AtlasWeight> result = new();
-
-        float totalWeight = 0f;
-        foreach (var pair in dictionary) totalWeight += pair.Value.Weight;
     
-        // Set current value to the lowerbound of the range
-        float currentValue = -1;
-
-        // Transform the weights to be between [-1, 1], as per FastNoiseLite range
-        foreach (var pair in dictionary)
-        {
-            AtlasWeight atlasWeight = pair.Value;
-            float weight = atlasWeight.Weight;
-    
-            currentValue += weight / totalWeight * 2;
-    
-            result.Add(pair.Key, new AtlasWeight(atlasWeight.TilePosition, currentValue));
-        }
-        return result;
-    }
 
 }
