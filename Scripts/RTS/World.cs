@@ -3,15 +3,15 @@ namespace RTS;
 public partial class World : Node
 {
     public static World Instance { get; private set; }
-    public static Dictionary<string, AtlasWeight> AtlasGrass { get; } =  SortAtlasByWeight(new() 
+    public static Dictionary<string, AtlasWeight> AtlasGrass { get; } =  TransformWeightsToRange(new() 
     {
-        { "grass_1", new AtlasWeight(new Vector2I(3, 1), 0.3f) },
-        { "grass_2", new AtlasWeight(new Vector2I(0, 8), 1f) }
+        { "grass_1", new AtlasWeight(new Vector2I(3, 1), 10f) },
+        { "grass_2", new AtlasWeight(new Vector2I(0, 8), 10f) }
     });
 
-    public static Dictionary<string, AtlasWeight> AtlasTrees { get; } = SortAtlasByWeight(new()
+    public static Dictionary<string, AtlasWeight> AtlasTrees { get; } = TransformWeightsToRange(new()
     {
-        { "tree_1",  new AtlasWeight(new Vector2I(6, 4), 0.1f) }
+        { "tree_1",  new AtlasWeight(new Vector2I(6, 4), 10f) }
     });
 
     public static int ChunkSize { get; } = 10;
@@ -53,7 +53,29 @@ public partial class World : Node
         }
     }
 
-    static Dictionary<string, AtlasWeight>  SortAtlasByWeight(Dictionary<string, AtlasWeight> Atlas) =>
-        Atlas.OrderBy(pair => pair.Value.Weight).ToDictionary(pair => pair.Key, pair => pair.Value);
+    public static Dictionary<string, AtlasWeight> TransformWeightsToRange(Dictionary<string, AtlasWeight> dictionary)
+    {
+        
+        Dictionary<string, AtlasWeight> result = new();
+        float totalWeight = 0f;
+    
+        // Find the minimum and maximum weights in the dictionary
+        foreach (var pair in dictionary) totalWeight += pair.Value.Weight;
+    
+        float currentValue = -1;
+        // Transform the weights to be between [-1, 1]
+        foreach (var pair in dictionary)
+        {
+            AtlasWeight atlasWeight = pair.Value;
+            float weight = atlasWeight.Weight;
+    
+            // Apply the transformation formula
+            currentValue += weight / totalWeight * 2;
+    
+            // Update the weight value in the AtlasWeight object
+            result.Add(pair.Key, new AtlasWeight(atlasWeight.TilePosition, currentValue));
+        }
+        return result;
+    }
 
 }
