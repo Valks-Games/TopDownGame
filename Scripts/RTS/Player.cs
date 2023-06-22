@@ -7,8 +7,23 @@ public partial class Player : Entity
 
     int prevChunkX, prevChunkY;
     int chunkSpawnRadius = 3;
+    GTimer timer;
+
+    protected override void Init()
+    {
+        timer = new(this, 2000) { Loop = true };
+        timer.Finished += SpawnNewChunks;
+        timer.Start();
+    }
 
     protected override void Update()
+    {
+        
+    }
+
+    protected override State InitialState() => Move();
+
+    void SpawnNewChunks()
     {
         var pixelChunkSize = World.ChunkSize * World.TileSize;
 
@@ -44,8 +59,6 @@ public partial class Player : Entity
         prevChunkX = chunkX;
         prevChunkY = chunkY;
     }
-
-    protected override State InitialState() => Move();
 
     State Move()
     {
