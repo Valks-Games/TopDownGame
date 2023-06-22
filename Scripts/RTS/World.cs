@@ -2,19 +2,10 @@ namespace RTS;
 
 public partial class World : Node
 {
+    // Static is convienant but arguably makes code more confusing to read / decouple
     public static World Instance { get; private set; }
-    public static Dictionary<string, AtlasWeight> AtlasGrass { get; } =  TransformWeightsToRange(new() 
-    {
-        { "empty",   new AtlasWeight(new Vector2I(0, 0), 0f) },
-        { "grass_1", new AtlasWeight(new Vector2I(3, 1), 20f) },
-        { "grass_2", new AtlasWeight(new Vector2I(0, 8), 10f) }
-    });
 
-    public static Dictionary<string, AtlasWeight> AtlasTrees { get; } = TransformWeightsToRange(new()
-    {
-        { "empty",   new AtlasWeight(new Vector2I(0, 0), 0f) },
-        { "tree_1",  new AtlasWeight(new Vector2I(6, 4), 10f) }
-    });
+    public static List<Atlas> Atlases { get; } = new();
 
     public static int ChunkSize { get; } = 10;
     public static int TileSize { get; } = 16;
@@ -24,16 +15,34 @@ public partial class World : Node
     [Export] public TileMap Grass { get; set; }
     [Export] public TileMap Trees { get; set; }
 
-    Noise noise;
+    Dictionary<string, AtlasWeight> tileDataGrass { get; } = TransformWeightsToRange(new()
+    {
+        { "grass_1", new AtlasWeight(new Vector2I(3, 1), 10f) },
+        { "grass_2", new AtlasWeight(new Vector2I(0, 8), 10f) }
+    });
+
+    Dictionary<string, AtlasWeight> tileDataTrees { get; } = TransformWeightsToRange(new()
+    {
+        { "tree_1",  new AtlasWeight(new Vector2I(6, 4), 10f) }
+    });
 
     public override void _Ready()
     {
         Instance = this;
 
-        noise = new FastNoiseLite
+        var grassNoise = new FastNoiseLite
         {
             Frequency = 0.1f
         };
+
+        var treeNoise = new FastNoiseLite
+        {
+            Frequency = 0.3f,
+            Offset = new Vector3(1000, 0, 0)
+        };
+
+        Atlases.Add(new(Grass, grassNoise, tileDataGrass));
+        Atlases.Add(new(Trees, treeNoise, tileDataTrees));
 
         GenerateSpawn();
     }
@@ -41,7 +50,7 @@ public partial class World : Node
     public void GenerateChunk(int x, int y)
     {
         World.ChunkGenerated[new Vector2I(x, y)] = true;
-        new Chunk(x, y, Grass, noise);
+        new Chunk(x, y);
     }
 
     void GenerateSpawn()
@@ -50,7 +59,7 @@ public partial class World : Node
         {
             for (int y = -SpawnRadius; y <= SpawnRadius; y++)
             {
-                new Chunk(x, y, Grass, noise);
+                new Chunk(x, y);
             }
         }
     }
@@ -71,7 +80,6 @@ public partial class World : Node
             AtlasWeight atlasWeight = pair.Value;
             float weight = atlasWeight.Weight;
     
-            // We're going from a range of [0, 1] to [-1, 1], so multiply by 2
             currentValue += weight / totalWeight * 2;
     
             result.Add(pair.Key, new AtlasWeight(atlasWeight.TilePosition, currentValue));

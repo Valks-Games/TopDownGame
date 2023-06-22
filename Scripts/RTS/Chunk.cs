@@ -1,35 +1,29 @@
-﻿using Godot;
-
-namespace RTS;
+﻿namespace RTS;
 
 public class Chunk
 {
-    TileMap tileMap;
-
-    public Chunk(int chunkX, int chunkY, TileMap tileMap, Noise noise, bool generate = true)
+    public Chunk(int chunkX, int chunkY)
     {
-        this.tileMap = tileMap;
-
-        if (generate) 
-            this.GenerateChunk(chunkX, chunkY, tileMap, noise);
+        this.GenerateChunk(chunkX, chunkY);
     }
 
-    void GenerateChunk(int chunkX, int chunkY, TileMap tileMap, Noise noise)
+    void GenerateChunk(int chunkX, int chunkY)
     {
-        for (int x = 0; x < World.ChunkSize; x++)
-            for (int y = 0; y < World.ChunkSize; y++)
-                GenerateTile(chunkX, chunkY, x, y, tileMap, noise);
+        foreach (var atlas in World.Atlases)
+            for (int x = 0; x < World.ChunkSize; x++)
+                for (int y = 0; y < World.ChunkSize; y++)
+                    GenerateTile(chunkX, chunkY, x, y, atlas);
     }
 
-    void GenerateTile(int chunkX, int chunkY, int x, int y, TileMap tileMap, Noise noise)
+    void GenerateTile(int chunkX, int chunkY, int x, int y, Atlas atlas)
     {
         var globalX = (chunkX * World.ChunkSize) + x;
         var globalY = (chunkY * World.ChunkSize) + y;
 
         string type = "";
-        var currentNoise = noise.GetNoise2D(globalX, globalY);
+        var currentNoise = atlas.FNL.GetNoise2D(globalX, globalY);
 
-        foreach (var atlasValue in World.AtlasGrass)
+        foreach (var atlasValue in atlas.TileData)
         {
             if (currentNoise < atlasValue.Value.Weight)
             {
@@ -38,13 +32,17 @@ public class Chunk
             }
         }
 
-        SetCell(globalX, globalY, type, !string.IsNullOrWhiteSpace(type) ?
-            World.AtlasGrass[type].TilePosition :
-            World.AtlasGrass.First().Value.TilePosition);
+        SetCell(
+            atlas.TileMap, 
+            type,
+            globalX, 
+            globalY, 
+            atlas.TileData[type].TilePosition);
     }
 
-    void SetCell(int x, int y, string typeName, Vector2I type)
+    void SetCell(TileMap tileMap, string typeName, int x, int y, Vector2I atlasPos)
     {
-        if (typeName != "empty")  tileMap.SetCell(0, new Vector2I(x, y), 0, type);
+        if (typeName != "empty")
+            tileMap.SetCell(0, new Vector2I(x, y), 0, atlasPos);
     }
 }
