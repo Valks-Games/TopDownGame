@@ -18,7 +18,6 @@ format = 2
 [node name="Trees" type="TileMap" parent="."]
 tile_set = ExtResource("1_ybika")
 format = 2
-layer_0/tile_data = PackedInt32Array(0, 393216, 4, 65535, 393216, 4, -1, 393216, 4, -65536, 393216, 4)
 
 [node name="Player" parent="." instance=ExtResource("3_8ce75")]
 position = Vector2(-121, -123)
