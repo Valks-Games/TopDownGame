@@ -42,7 +42,7 @@ public class Atlas
     
             currentValue += weight / totalWeight * 2;
     
-            result.Add(pair.Key, new TileData(atlasWeight.TilePosition, currentValue));
+            result.Add(pair.Key, new TileData(atlasWeight.UV, currentValue));
         }
         return result;
     }

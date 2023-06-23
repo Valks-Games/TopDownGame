@@ -2,12 +2,12 @@ namespace RTS;
 
 public class TileData
 {
-    public Vector2I TilePosition { get; }
+    public Vector2I UV { get; }
     public float Weight { get; }
 
-    public TileData(Vector2I tilePosition, float weight)
+    public TileData(Vector2I uv, float weight)
     {
-        this.TilePosition = tilePosition;
+        this.UV = uv;
         this.Weight = weight;
     }
 }

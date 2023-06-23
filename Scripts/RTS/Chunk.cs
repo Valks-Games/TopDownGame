@@ -89,8 +89,8 @@ public class Chunk
                 {
                     if (currentNoise < atlasValue.Value.Weight)
                     {
-                        tileX = atlasValue.Value.TilePosition.X;
-                        tileY = atlasValue.Value.TilePosition.Y;
+                        tileX = atlasValue.Value.UV.X;
+                        tileY = atlasValue.Value.UV.Y;
                         break;
                     }
                 }
