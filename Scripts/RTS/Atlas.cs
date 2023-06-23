@@ -9,10 +9,19 @@ public class Atlas
     public Atlas(TileMap tileMap, FastNoiseLite fnl, Dictionary<string, AtlasWeight> tileData, float emptyWeight = 0f)
     {
         tileData.Add("empty", new AtlasWeight(Vector2I.Zero, emptyWeight));
+        ValidateTileDataWeights(tileData);
 
         this.TileMap = tileMap;
         this.FNL = fnl;
         this.TileData = TransformWeightsToRange(tileData);
+    }
+
+    void ValidateTileDataWeights(Dictionary<string, AtlasWeight> tileData) 
+    {
+        // Pre transform validation => if weights are less than 0, throw an exception
+        foreach (var pair in tileData)
+            if (pair.Value.Weight < 0f )
+                throw new Exception($"Weight cannot be less than 0, error thrown by {pair.Key}, weight: {pair.Value.Weight}");
     }
 
     public Dictionary<string, AtlasWeight> TransformWeightsToRange(Dictionary<string, AtlasWeight> dictionary)
