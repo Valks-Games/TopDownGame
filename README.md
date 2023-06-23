@@ -1,17 +1,18 @@
-# TopDownGame
-This repo was created to create things that can be used across all top down games.
+https://github.com/valkyrienyanko/TopDownGame/assets/6277739/9c213d99-8974-4291-864f-fd6cbe0e70f7
 
-Currently working on
-- procedural dungeon generation
-- procedural generated sword slash effect art
+## Roadmap
+Player
+- Sword swing animation
+- Bow animation
+- Dash / roll animation(s)
+- Sprinting
 
-Planning to work on
-- interesting enemy encounters
-- player mechanics
+Frog
+- Figure out why it's sliding into trees
+- Figure out to spawn these guys in dynamically around the player. Look into persistent enemies. That is when a player sees a frog in a chunk but then goes away from that frog, that frog will be deleted, but it will still exist in memory when the player comes back to that chunk.
 
-https://github.com/valkyrienyanko/TopDownGame/assets/6277739/f71cba39-21e0-4d96-a57c-a0850cab2048
-
-![Untitled](https://github.com/valkyrienyanko/TopDownGame/assets/6277739/80e92051-b7fa-46d0-a88a-32cc0b44cf3c)
+Terrain
+- Redo world generation to work with meshes
 
 ## Setup
 1. Download and install the [latest Godot 4 C# release](https://godotengine.org/)
