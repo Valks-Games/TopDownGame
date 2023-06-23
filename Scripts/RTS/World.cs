@@ -12,17 +12,6 @@ public partial class World : Node
     public static int TileSize { get; } = 16;
     public static int SpawnRadius { get; } = 3;
 
-    Dictionary<string, TileData> tileDataGrass { get; } = new()
-    {  
-        { "grass_1", new TileData(new Vector2I(3, 1), 10f) },
-        { "grass_2", new TileData(new Vector2I(0, 8), 10f) }
-    };
-
-    Dictionary<string, TileData> tileDataTrees { get; } = new()
-    {
-        { "tree_1",  new TileData(new Vector2I(6, 4), 10f, true) }
-    };
-
     Node2D parentChunks;
 
     public override void _Ready()
@@ -46,8 +35,22 @@ public partial class World : Node
             Offset = new Vector3(1000, 0, 0)
         };
 
-        Atlases.Add(new(-10, grassNoise, tileDataGrass));
-        Atlases.Add(new(-9 , treeNoise,  tileDataTrees, 30f));
+        Atlases.Add(new(
+            zindex: -10, 
+            fnl: grassNoise, 
+            tileData: new()
+            {
+                { "grass_1", new TileData(new Vector2I(3, 1), 10f) },
+                { "grass_2", new TileData(new Vector2I(0, 8), 10f) }
+            }, 0f));
+
+        Atlases.Add(new(
+            zindex: -9, 
+            fnl: treeNoise, 
+            tileData: new()
+            {
+                { "tree_1",  new TileData(new Vector2I(6, 4), 10f, true) }
+            }, 30f));
 
         GenerateChunk(0, 0);
         GenerateSpawn();
