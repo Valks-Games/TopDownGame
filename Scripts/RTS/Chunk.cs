@@ -45,38 +45,49 @@ public class Chunk
                 y: s + (-chunkSize / 2) + tileChunkPos.Y, 
                 z: 0);
 
-        SetUVs(ref uvs, tex.GetSize());
+        var iIndex = 0;
+        var vIndex = 0;
 
-        var i = 0;
-        var v = 0;
+        var tileX = 0;
+        var tileY = 0;
 
-        GD.Print(uvs.Length);  // 400
-        GD.Print(size * size); // 100
+        var texSize = tex.GetSize();
+
+        var tileWidth = World.TileSize / texSize.X;
+        var tileHeight = World.TileSize / texSize.Y;
 
         for (int z = 0; z < size; z++)
         {
             for (int x = 0; x < size; x++)
             {
-                vertices[v] = new Vector3(-s, -s, 0) + posVec3;
-                vertices[v + 1] = new Vector3(-s, s, 0) + posVec3;
-                vertices[v + 2] = new Vector3(s, s, 0) + posVec3;
-                vertices[v + 3] = new Vector3(s, -s, 0) + posVec3;
+                vertices[vIndex] = new Vector3(-s, -s, 0) + posVec3;
+                vertices[vIndex + 1] = new Vector3(-s, s, 0) + posVec3;
+                vertices[vIndex + 2] = new Vector3(s, s, 0) + posVec3;
+                vertices[vIndex + 3] = new Vector3(s, -s, 0) + posVec3;
 
-                indices[i] = v;
-                indices[i + 1] = v + 1;
-                indices[i + 2] = v + 2;
+                indices[iIndex] = vIndex;
+                indices[iIndex + 1] = vIndex + 1;
+                indices[iIndex + 2] = vIndex + 2;
 
-                indices[i + 3] = v + 2;
-                indices[i + 4] = v + 3;
-                indices[i + 5] = v + 0;
+                indices[iIndex + 3] = vIndex + 2;
+                indices[iIndex + 4] = vIndex + 3;
+                indices[iIndex + 5] = vIndex + 0;
 
-                //normals     [v] = new Vector3( 0, 0,  s);
-                //normals [v + 1] = new Vector3( 0, 0, s );
-                //normals [v + 2] = new Vector3( 0, 0, s );
-                //normals [v + 3] = new Vector3( 0, 0, s );
+                var u = (World.TileSize * tileX) / texSize.X;
+                var v = (World.TileSize * tileY) / texSize.Y;
 
-                v += 4;
-                i += 6;
+                uvs[vIndex] = new Vector2(u, v);
+                uvs[vIndex + 1] = new Vector2(u, v + tileHeight);
+                uvs[vIndex + 2] = new Vector2(u + tileWidth, v + tileHeight);
+                uvs[vIndex + 3] = new Vector2(u + tileWidth, v);
+
+                //normals     [vIndex] = new Vector3( 0, 0,  s);
+                //normals [vIndex + 1] = new Vector3( 0, 0, s );
+                //normals [vIndex + 2] = new Vector3( 0, 0, s );
+                //normals [vIndex + 3] = new Vector3( 0, 0, s );
+
+                vIndex += 4;
+                iIndex += 6;
 
                 // Move down column by 1
                 posVec3 += new Vector3(w, 0, 0);
@@ -105,39 +116,5 @@ public class Chunk
         };
 
         parent.AddChild(meshInstance);
-    }
-
-    void SetUVs(ref Vector2[] uvs, Vector2 texSize)
-    {
-        // The texture has 8 x 15 tiles
-        // Each tile is 16 pixels in size
-        var texTiles = new Vector2(8, 15);
-
-        var tileX = 0;
-        var tileY = 0;
-
-        var tileWidth = World.TileSize / texSize.X;
-        var tileHeight = World.TileSize / texSize.Y;
-
-        for (int i = 0; i < uvs.Length; i += 4)
-        {
-            //GD.Print($"({tileX}, {tileY})");
-
-            var x = (World.TileSize * tileX) / texSize.X;
-            var y = (World.TileSize * tileY) / texSize.Y;
-
-            uvs[i] = new Vector2(x, y);
-            uvs[i + 1] = new Vector2(x, y + tileHeight);
-            uvs[i + 2] = new Vector2(x + tileWidth, y + tileHeight);
-            uvs[i + 3] = new Vector2(x + tileWidth, y);
-
-            tileX += 1;
-
-            if (tileX % 8 == 0)
-            {
-                tileX -= 8;
-                tileY += 1;
-            }
-        }
     }
 }
