@@ -44,13 +44,14 @@ public partial class World : Node
         Atlases.Add(new(Grass, grassNoise, tileDataGrass));
         Atlases.Add(new(Trees, treeNoise, tileDataTrees, 30f));
 
-        GenerateSpawn();
+        GenerateChunk(0, 0);
+        //GenerateSpawn();
     }
 
     public void GenerateChunk(int x, int y)
     {
         World.ChunkGenerated[new Vector2I(x, y)] = true;
-        new Chunk(x, y);
+        new Chunk(this, x, y);
     }
 
     void GenerateSpawn()
@@ -59,11 +60,8 @@ public partial class World : Node
         {
             for (int y = -SpawnRadius; y <= SpawnRadius; y++)
             {
-                new Chunk(x, y);
+                GenerateChunk(x, y);
             }
         }
     }
-
-    
-
 }
