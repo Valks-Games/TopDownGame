@@ -29,21 +29,20 @@ public class Chunk
 
         var tex = GD.Load<Texture2D>("res://Sprites/basictiles.png");
 
-        var s = World.TileSize / 2; // hard coded size
-        var w = s * 2; // width
+        var tileOffset = World.TileSize / 2; // hard coded size
+        var width = tileOffset * 2; // width
 
-        var chunkSize = w * size;
+        var chunkSize = width * size;
         var chunkCoords = new Vector2(chunkX, chunkY);
         var tileChunkPos = chunkCoords * chunkSize; // (6400, 6400)
         var chunkPos = chunkCoords * size; // (100, 100)
 
         // Adding s adds hardcoded offset to align with godots grid
         // Also offset by (-chunkSize / 2) to center chunk
-        var posVec3 = 
-            new Vector3(
-                x: s + (-chunkSize / 2) + tileChunkPos.X, 
-                y: s + (-chunkSize / 2) + tileChunkPos.Y, 
-                z: 0);
+        var pos = new Vector3(
+            x: tileOffset + (-chunkSize / 2) + tileChunkPos.X, 
+            y: tileOffset + (-chunkSize / 2) + tileChunkPos.Y, 
+            z: 0);
 
         var iIndex = 0;
         var vIndex = 0;
@@ -60,12 +59,14 @@ public class Chunk
         {
             for (int x = 0; x < size; x++)
             {
-                vertices[vIndex] = new Vector3(-s, -s, 0) + posVec3;
-                vertices[vIndex + 1] = new Vector3(-s, s, 0) + posVec3;
-                vertices[vIndex + 2] = new Vector3(s, s, 0) + posVec3;
-                vertices[vIndex + 3] = new Vector3(s, -s, 0) + posVec3;
+                // Vertices
+                vertices[vIndex]     = new Vector3(-tileOffset, -tileOffset, 0) + pos;
+                vertices[vIndex + 1] = new Vector3(-tileOffset,  tileOffset, 0) + pos;
+                vertices[vIndex + 2] = new Vector3( tileOffset,  tileOffset, 0) + pos;
+                vertices[vIndex + 3] = new Vector3( tileOffset, -tileOffset, 0) + pos;
 
-                indices[iIndex] = vIndex;
+                // Indices
+                indices[iIndex]     = vIndex;
                 indices[iIndex + 1] = vIndex + 1;
                 indices[iIndex + 2] = vIndex + 2;
 
@@ -73,10 +74,11 @@ public class Chunk
                 indices[iIndex + 4] = vIndex + 3;
                 indices[iIndex + 5] = vIndex + 0;
 
+                // UVs
                 var u = (World.TileSize * tileX) / texSize.X;
                 var v = (World.TileSize * tileY) / texSize.Y;
 
-                uvs[vIndex] = new Vector2(u, v);
+                uvs[vIndex]     = new Vector2(u, v);
                 uvs[vIndex + 1] = new Vector2(u, v + tileHeight);
                 uvs[vIndex + 2] = new Vector2(u + tileWidth, v + tileHeight);
                 uvs[vIndex + 3] = new Vector2(u + tileWidth, v);
@@ -90,11 +92,11 @@ public class Chunk
                 iIndex += 6;
 
                 // Move down column by 1
-                posVec3 += new Vector3(w, 0, 0);
+                pos += new Vector3(width, 0, 0);
             }
 
             // Reset column and move down 1 row
-            posVec3 += new Vector3(-w * size, w, 0);
+            pos += new Vector3(-width * size, width, 0);
         }
 
         var arrays = new Godot.Collections.Array();
