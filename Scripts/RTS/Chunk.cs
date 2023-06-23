@@ -2,17 +2,12 @@
 
 public class Chunk
 {
-    int chunkX, chunkY;
-
     public Chunk(Node parent, int chunkX, int chunkY)
     {
-        this.chunkX = chunkX;
-        this.chunkY = chunkY;
-
-        GenerateMesh(parent);
+        GenerateMesh(parent, chunkX, chunkY);
     }
 
-    void GenerateMesh(Node parent)
+    void GenerateMesh(Node parent, int chunkX, int chunkY)
     {
         var size = World.ChunkSize;
         var vertices = new Vector3[4 * size * size];
