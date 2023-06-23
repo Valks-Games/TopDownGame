@@ -40,14 +40,14 @@ public partial class Player : Entity
                     var posY = chunkY + y;
 
                     // No key exists in the dictionary so no chunk has been generated here before
-                    if (!World.ChunkGenerated.ContainsKey(new Vector2I(posX, posY)))
+                    if (!World.Chunks.ContainsKey(new Vector2I(posX, posY)))
                     {
                         World.Instance.GenerateChunk(posX, posY);
                     }
                     else
                     {
                         // A chunk was generated here before but it has been removed
-                        if (!World.ChunkGenerated[new Vector2I(posX, posY)])
+                        if (!World.Chunks[new Vector2I(posX, posY)].Generated)
                         {
                             World.Instance.GenerateChunk(posX, posY);
                         }

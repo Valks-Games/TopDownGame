@@ -2,15 +2,23 @@
 
 public class Chunk
 {
+    public bool Generated { get; set; }
+
     public Chunk(Node parent, int chunkX, int chunkY)
     {
+        Generated = true;
+
+        var chunkParent = new Node2D();
+
         foreach (var atlas in World.Atlases)
         {
-            GenerateMesh(parent, chunkX, chunkY, atlas);
+            chunkParent.AddChild(GenerateMesh(parent, chunkX, chunkY, atlas));
         }
+
+        parent.AddChild(chunkParent);
     }
 
-    void GenerateMesh(Node parent, int chunkX, int chunkY, Atlas atlas)
+    MeshInstance2D GenerateMesh(Node parent, int chunkX, int chunkY, Atlas atlas)
     {
         var size = World.ChunkSize;
         var vertices = new Vector3[4 * size * size];
@@ -124,13 +132,11 @@ public class Chunk
         var mesh = new ArrayMesh();
         mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
 
-        var meshInstance = new MeshInstance2D
+        return new MeshInstance2D
         {
             Mesh = mesh,
             ZIndex = atlas.ZIndex,
             Texture = tex
         };
-
-        parent.AddChild(meshInstance);
     }
 }
