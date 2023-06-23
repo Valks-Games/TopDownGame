@@ -20,7 +20,7 @@ public partial class World : Node
 
     Dictionary<string, TileData> tileDataTrees { get; } = new()
     {
-        { "tree_1",  new TileData(new Vector2I(6, 4), 10f) }
+        { "tree_1",  new TileData(new Vector2I(6, 4), 10f, true) }
     };
 
     Node2D parentChunks;
