@@ -3,17 +3,15 @@
 public class Atlas
 {
     public int ZIndex { get; }
-    public TileMap TileMap { get; }
     public FastNoiseLite FNL { get; }
     public Dictionary<string, TileData> TileData { get; }
 
-    public Atlas(int zindex, TileMap tileMap, FastNoiseLite fnl, Dictionary<string, TileData> tileData, float emptyWeight = 0f)
+    public Atlas(int zindex, FastNoiseLite fnl, Dictionary<string, TileData> tileData, float emptyWeight = 0f)
     {
         tileData.Add("empty", new TileData(Vector2I.Zero, emptyWeight));
         ValidateTileDataWeights(tileData);
 
         this.ZIndex = zindex;
-        this.TileMap = tileMap;
         this.FNL = fnl;
         this.TileData = TransformWeightsToRange(tileData);
     }

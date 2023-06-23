@@ -12,9 +12,6 @@ public partial class World : Node
     public static int TileSize { get; } = 16;
     public static int SpawnRadius { get; } = 3;
 
-    [Export] public TileMap Grass { get; set; }
-    [Export] public TileMap Trees { get; set; }
-
     Dictionary<string, TileData> tileDataGrass { get; } = new()
     {  
         { "grass_1", new TileData(new Vector2I(3, 1), 10f) },
@@ -49,8 +46,8 @@ public partial class World : Node
             Offset = new Vector3(1000, 0, 0)
         };
 
-        Atlases.Add(new(-10, Grass, grassNoise, tileDataGrass));
-        Atlases.Add(new(-9 , Trees, treeNoise,  tileDataTrees, 30f));
+        Atlases.Add(new(-10, grassNoise, tileDataGrass));
+        Atlases.Add(new(-9 , treeNoise,  tileDataTrees, 30f));
 
         GenerateChunk(0, 0);
         GenerateSpawn();
