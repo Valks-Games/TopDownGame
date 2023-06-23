@@ -50,9 +50,11 @@ public class Chunk
         var tileWidth = World.TileSize / texSize.X;
         var tileHeight = World.TileSize / texSize.Y;
 
-        for (int z = 0; z < size; z++)
+        var atlas = World.Atlases[0];
+
+        for (int x = 0; x < size; x++)
         {
-            for (int x = 0; x < size; x++)
+            for (int y = 0; y < size; y++)
             {
                 // Vertices
                 vertices[vIndex]     = new Vector3(-tileOffset, -tileOffset, 0) + pos;
@@ -68,6 +70,19 @@ public class Chunk
                 indices[iIndex + 3] = vIndex + 2;
                 indices[iIndex + 4] = vIndex + 3;
                 indices[iIndex + 5] = vIndex + 0;
+
+                // Obtain the appropriate tile based on current noise
+                var currentNoise = atlas.FNL.GetNoise2D(x, y);
+
+                foreach (var atlasValue in atlas.TileData)
+                {
+                    if (currentNoise < atlasValue.Value.Weight)
+                    {
+                        tileX = atlasValue.Value.TilePosition.X;
+                        tileY = atlasValue.Value.TilePosition.Y;
+                        break;
+                    }
+                }
 
                 // UVs
                 var u = (World.TileSize * tileX) / texSize.X;
