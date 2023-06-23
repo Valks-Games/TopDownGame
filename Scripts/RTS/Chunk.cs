@@ -12,13 +12,13 @@ public class Chunk
 
         foreach (var atlas in World.Atlases)
         {
-            chunkParent.AddChild(GenerateMesh(parent, chunkX, chunkY, atlas));
+            chunkParent.AddChild(GenerateMesh(chunkParent, chunkX, chunkY, atlas));
         }
 
         parent.AddChild(chunkParent);
     }
 
-    MeshInstance2D GenerateMesh(Node parent, int chunkX, int chunkY, Atlas atlas)
+    MeshInstance2D GenerateMesh(Node2D parent, int chunkX, int chunkY, Atlas atlas)
     {
         var size = World.ChunkSize;
         var vertices = new Vector3[4 * size * size];
@@ -89,6 +89,25 @@ public class Chunk
                 {
                     if (currentNoise < atlasValue.Value.Weight)
                     {
+                        // Create collision if tile has one
+                        if (atlasValue.Value.Collision)
+                        {
+                            var staticBody2D = new StaticBody2D();
+
+                            var collision = new CollisionShape2D
+                            {
+                                Position = new Vector2(pos.X, pos.Y),
+                                Shape = new RectangleShape2D
+                                {
+                                    Size = Vector2.One * World.TileSize
+                                }
+                            };
+
+                            staticBody2D.AddChild(collision);
+
+                            parent.AddChild(staticBody2D);
+                        }
+
                         tileX = atlasValue.Value.UV.X;
                         tileY = atlasValue.Value.UV.Y;
                         break;

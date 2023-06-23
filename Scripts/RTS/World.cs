@@ -52,7 +52,6 @@ public partial class World : Node
                 { "tree_1",  new TileData(new Vector2I(6, 4), 10f, true) }
             }, 30f));
 
-        GenerateChunk(0, 0);
         GenerateSpawn();
     }
 
