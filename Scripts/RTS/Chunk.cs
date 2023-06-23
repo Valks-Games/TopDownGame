@@ -4,10 +4,13 @@ public class Chunk
 {
     public Chunk(Node parent, int chunkX, int chunkY)
     {
-        GenerateMesh(parent, chunkX, chunkY);
+        foreach (var atlas in World.Atlases)
+        {
+            GenerateMesh(parent, chunkX, chunkY, atlas);
+        }
     }
 
-    void GenerateMesh(Node parent, int chunkX, int chunkY)
+    void GenerateMesh(Node parent, int chunkX, int chunkY, Atlas atlas)
     {
         var size = World.ChunkSize;
         var vertices = new Vector3[4 * size * size];
@@ -50,8 +53,6 @@ public class Chunk
         var tileWidth = World.TileSize / texSize.X;
         var tileHeight = World.TileSize / texSize.Y;
 
-        var atlas = World.Atlases[0];
-
         for (int x = 0; x < size; x++)
         {
             for (int y = 0; y < size; y++)
@@ -72,7 +73,9 @@ public class Chunk
                 indices[iIndex + 5] = vIndex + 0;
 
                 // Obtain the appropriate tile based on current noise
-                var currentNoise = atlas.FNL.GetNoise2D(x, y);
+                var globalX = (chunkX * World.ChunkSize) + x;
+                var globalY = (chunkY * World.ChunkSize) + y;
+                var currentNoise = atlas.FNL.GetNoise2D(globalX, globalY);
 
                 foreach (var atlasValue in atlas.TileData)
                 {
@@ -88,7 +91,7 @@ public class Chunk
                 var u = (World.TileSize * tileX) / texSize.X;
                 var v = (World.TileSize * tileY) / texSize.Y;
 
-                uvs[vIndex]     = new Vector2(u, v);
+                uvs[vIndex] = new Vector2(u, v);
                 uvs[vIndex + 1] = new Vector2(u, v + tileHeight);
                 uvs[vIndex + 2] = new Vector2(u + tileWidth, v + tileHeight);
                 uvs[vIndex + 3] = new Vector2(u + tileWidth, v);
@@ -124,7 +127,7 @@ public class Chunk
         var meshInstance = new MeshInstance2D
         {
             Mesh = mesh,
-            ZIndex = -10,
+            ZIndex = atlas.ZIndex,
             Texture = tex
         };
 
