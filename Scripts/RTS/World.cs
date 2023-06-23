@@ -41,11 +41,11 @@ public partial class World : Node
             Offset = new Vector3(1000, 0, 0)
         };
 
-        Atlases.Add(new(Grass, grassNoise, tileDataGrass));
-        //Atlases.Add(new(Trees, treeNoise, tileDataTrees, 30f));
+        Atlases.Add(new(-10, Grass, grassNoise, tileDataGrass));
+        Atlases.Add(new(-9 , Trees, treeNoise,  tileDataTrees, 30f));
 
         GenerateChunk(0, 0);
-        //GenerateSpawn();
+        GenerateSpawn();
     }
 
     public void GenerateChunk(int x, int y)
