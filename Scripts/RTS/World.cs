@@ -42,7 +42,7 @@ public partial class World : Node
         };
 
         Atlases.Add(new(Grass, grassNoise, tileDataGrass));
-        Atlases.Add(new(Trees, treeNoise, tileDataTrees, 30f));
+        //Atlases.Add(new(Trees, treeNoise, tileDataTrees, 30f));
 
         GenerateChunk(0, 0);
         //GenerateSpawn();
