@@ -6,12 +6,12 @@ public partial class UICardManager : GridContainer
 
     public override void _Ready()
     {
-        SetupCards();
+        //SetupCards();
     }
 
     public override void _Input(InputEvent @event)
     {
-        if (Input.IsActionJustPressed("move_up"))
+        /*if (Input.IsActionJustPressed("move_up"))
         {
             TotalCards++;
             SetupCards();
@@ -21,7 +21,7 @@ public partial class UICardManager : GridContainer
         {
             TotalCards--;
             SetupCards();
-        }
+        }*/
     }
 
     void SetupCards()
