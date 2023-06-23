@@ -5,7 +5,7 @@ public partial class World : Node
     // Static is convienant but arguably makes code more confusing to read / decouple
     public static World Instance { get; private set; }
 
-    public static List<Atlas> Atlases { get; } = new();
+    public static List<TileLayer> TileLayers { get; } = new();
 
     public static Dictionary<Vector2I, Chunk> Chunks { get; } = new();
     public static int ChunkSize { get; } = 10;
@@ -35,7 +35,7 @@ public partial class World : Node
             Offset = new Vector3(1000, 0, 0)
         };
 
-        Atlases.Add(new(
+        TileLayers.Add(new(
             zindex: -10, 
             fnl: grassNoise, 
             tileData: new()
@@ -44,7 +44,7 @@ public partial class World : Node
                 { "grass_2", new TileData(new Vector2I(0, 8), 10f) }
             }, 0f));
 
-        Atlases.Add(new(
+        TileLayers.Add(new(
             zindex: -9, 
             fnl: treeNoise, 
             tileData: new()

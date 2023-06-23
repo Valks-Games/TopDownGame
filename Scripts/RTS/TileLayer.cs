@@ -1,12 +1,12 @@
 ﻿namespace RTS;
 
-public class Atlas
+public class TileLayer
 {
     public int ZIndex { get; }
     public FastNoiseLite FNL { get; }
     public Dictionary<string, TileData> TileData { get; }
 
-    public Atlas(int zindex, FastNoiseLite fnl, Dictionary<string, TileData> tileData, float emptyWeight = 0f)
+    public TileLayer(int zindex, FastNoiseLite fnl, Dictionary<string, TileData> tileData, float emptyWeight = 0f)
     {
         tileData.Add("empty", new TileData(Vector2I.Zero, emptyWeight));
         ValidateTileDataWeights(tileData);

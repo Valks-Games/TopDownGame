@@ -10,7 +10,7 @@ public class Chunk
 
         var chunkParent = new Node2D();
 
-        foreach (var atlas in World.Atlases)
+        foreach (var atlas in World.TileLayers)
         {
             chunkParent.AddChild(GenerateMesh(chunkParent, chunkX, chunkY, atlas));
         }
@@ -18,7 +18,7 @@ public class Chunk
         parent.AddChild(chunkParent);
     }
 
-    MeshInstance2D GenerateMesh(Node2D parent, int chunkX, int chunkY, Atlas atlas)
+    MeshInstance2D GenerateMesh(Node2D parent, int chunkX, int chunkY, TileLayer atlas)
     {
         var size = World.ChunkSize;
         var vertices = new Vector3[4 * size * size];
