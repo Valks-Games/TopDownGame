@@ -8,14 +8,11 @@
 
 [node name="World" type="Node2D" node_paths=PackedStringArray("Grass", "Trees")]
 script = ExtResource("1_6qhqq")
-Grass = NodePath("Grass")
-Trees = NodePath("Trees")
+Grass = NodePath("Reference")
+Trees = NodePath("")
 
-[node name="Grass" type="TileMap" parent="."]
-tile_set = ExtResource("1_ybika")
-format = 2
-
-[node name="Trees" type="TileMap" parent="."]
+[node name="Reference" type="TileMap" parent="."]
+editor_description = "This is only used as a reference to see the tilemap."
 tile_set = ExtResource("1_ybika")
 format = 2
 
