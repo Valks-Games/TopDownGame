@@ -15,15 +15,15 @@ public partial class World : Node
     [Export] public TileMap Grass { get; set; }
     [Export] public TileMap Trees { get; set; }
 
-    Dictionary<string, AtlasWeight> tileDataGrass { get; } = new()
+    Dictionary<string, TileData> tileDataGrass { get; } = new()
     {  
-        { "grass_1", new AtlasWeight(new Vector2I(3, 1), 10f) },
-        { "grass_2", new AtlasWeight(new Vector2I(0, 8), 10f) }
+        { "grass_1", new TileData(new Vector2I(3, 1), 10f) },
+        { "grass_2", new TileData(new Vector2I(0, 8), 10f) }
     };
 
-    Dictionary<string, AtlasWeight> tileDataTrees { get; } = new()
+    Dictionary<string, TileData> tileDataTrees { get; } = new()
     {
-        { "tree_1",  new AtlasWeight(new Vector2I(6, 4), 10f) }
+        { "tree_1",  new TileData(new Vector2I(6, 4), 10f) }
     };
 
     Node2D parentChunks;

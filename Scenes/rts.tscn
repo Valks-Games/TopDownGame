@@ -6,10 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://3q0ylr65w8rq" path="res://Scenes/Prefabs/slime.tscn" id="4_guf0v"]
 [ext_resource type="Script" path="res://Scripts/UI/UICardManager.cs" id="5_m8s8e"]
 
-[node name="World" type="Node2D" node_paths=PackedStringArray("Grass", "Trees")]
+[node name="World" type="Node2D" node_paths=PackedStringArray("Grass")]
 script = ExtResource("1_6qhqq")
 Grass = NodePath("Reference")
-Trees = NodePath("")
 
 [node name="Reference" type="TileMap" parent="."]
 editor_description = "This is only used as a reference to see the tilemap."
