@@ -83,6 +83,7 @@ public class Chunk
                 uvs[vIndex + 2] = new Vector2(u + tileWidth, v + tileHeight);
                 uvs[vIndex + 3] = new Vector2(u + tileWidth, v);
 
+                // Normals
                 //normals     [vIndex] = new Vector3( 0, 0,  s);
                 //normals [vIndex + 1] = new Vector3( 0, 0, s );
                 //normals [vIndex + 2] = new Vector3( 0, 0, s );
@@ -91,11 +92,11 @@ public class Chunk
                 vIndex += 4;
                 iIndex += 6;
 
-                // Move down column by 1
+                // Move to next column
                 pos += new Vector3(width, 0, 0);
             }
 
-            // Reset column and move down 1 row
+            // Reset columns and move to next row
             pos += new Vector3(-width * size, width, 0);
         }
 
