@@ -7,10 +7,10 @@ public partial class World : Node
 
     public static List<Atlas> Atlases { get; } = new();
 
+    public static Dictionary<Vector2I, Chunk> Chunks { get; } = new();
     public static int ChunkSize { get; } = 10;
     public static int TileSize { get; } = 16;
     public static int SpawnRadius { get; } = 3;
-    public static Dictionary<Vector2I, bool> ChunkGenerated { get; } = new();
 
     [Export] public TileMap Grass { get; set; }
     [Export] public TileMap Trees { get; set; }
@@ -26,9 +26,17 @@ public partial class World : Node
         { "tree_1",  new AtlasWeight(new Vector2I(6, 4), 10f) }
     };
 
+    Node2D parentChunks;
+
     public override void _Ready()
     {
         Instance = this;
+
+        parentChunks = new Node2D
+        {
+            Name = "Chunks"
+        };
+        AddChild(parentChunks);
 
         var grassNoise = new FastNoiseLite
         {
@@ -41,16 +49,17 @@ public partial class World : Node
             Offset = new Vector3(1000, 0, 0)
         };
 
-        Atlases.Add(new(Grass, grassNoise, tileDataGrass));
-        Atlases.Add(new(Trees, treeNoise, tileDataTrees, 30f));
+        Atlases.Add(new(-10, Grass, grassNoise, tileDataGrass));
+        Atlases.Add(new(-9 , Trees, treeNoise,  tileDataTrees, 30f));
 
+        GenerateChunk(0, 0);
         GenerateSpawn();
     }
 
     public void GenerateChunk(int x, int y)
     {
-        World.ChunkGenerated[new Vector2I(x, y)] = true;
-        new Chunk(x, y);
+        var chunk = new Chunk(parentChunks, x, y);
+        Chunks[new Vector2I(x, y)] = chunk;
     }
 
     void GenerateSpawn()
@@ -59,11 +68,8 @@ public partial class World : Node
         {
             for (int y = -SpawnRadius; y <= SpawnRadius; y++)
             {
-                new Chunk(x, y);
+                GenerateChunk(x, y);
             }
         }
     }
-
-    
-
 }
