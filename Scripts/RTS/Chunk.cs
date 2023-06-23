@@ -1,4 +1,6 @@
-﻿namespace RTS;
+﻿using static System.Net.Mime.MediaTypeNames;
+
+namespace RTS;
 
 public class Chunk
 {
@@ -8,7 +10,41 @@ public class Chunk
         //this.GenerateChunk(chunkX, chunkY);
     }
 
-    public void GenerateMesh(Node parent, Vector2 chunkCoords, int size)
+    void SetUVs(ref Vector2[] uvs, Vector2 texSize)
+    {
+        // The texture has 8 x 15 tiles
+        // Each tile is 16 pixels in size
+        var texTiles = new Vector2(8, 15);
+
+        var tileX = 0;
+        var tileY = 0;
+
+        var tileWidth = World.TileSize / texSize.X;
+        var tileHeight = World.TileSize / texSize.Y;
+
+        for (int i = 0; i < uvs.Length; i += 4)
+        {
+            //GD.Print($"({tileX}, {tileY})");
+
+            var x = (World.TileSize * tileX) / texSize.X;
+            var y = (World.TileSize * tileY) / texSize.Y;
+
+            uvs[i] = new Vector2(x, y);
+            uvs[i + 1] = new Vector2(x, y + tileHeight);
+            uvs[i + 2] = new Vector2(x + tileWidth, y + tileHeight);
+            uvs[i + 3] = new Vector2(x + tileWidth, y);
+
+            tileX += 1;
+
+            if (tileX % 8 == 0)
+            {
+                tileX -= 8;
+                tileY += 1;
+            } 
+        }
+    }
+
+    void GenerateMesh(Node parent, Vector2 chunkCoords, int size)
     {
         var vertices = new Vector3[4 * size * size];
         //var normals  = new Vector3[4 * size * size];
@@ -28,27 +64,9 @@ public class Chunk
 
         var tex = GD.Load<Texture2D>("res://Sprites/basictiles.png");
 
-        {
-            // The texture has 8 x 15 tiles
-            // Each tile is 16 pixels in size
-            var texTiles = new Vector2(8, 15);
+        SetUVs(ref uvs, tex.GetSize());
 
-            var tileX = 2;
-            var tileY = 1;
-
-            var x = (World.TileSize * tileX) / tex.GetSize().X;
-            var y = (World.TileSize * tileY) / tex.GetSize().Y;
-
-            var tileWidth = World.TileSize / tex.GetSize().X;
-            var tileHeight = World.TileSize / tex.GetSize().Y;
-
-            uvs[0] = new Vector2(x, y);
-            uvs[1] = new Vector2(x, y + tileHeight);
-            uvs[2] = new Vector2(x + tileWidth, y + tileHeight);
-            uvs[3] = new Vector2(x + tileWidth, y);
-        }
-
-        var s = World.TileSize; // hard coded size
+        var s = World.TileSize / 2; // hard coded size
         var w = s * 2; // width
 
         var chunkSize = w * size;
@@ -57,7 +75,11 @@ public class Chunk
 
         // Adding s adds hardcoded offset to align with godots grid
         // Also offset by (-chunkSize / 2) to center chunk
-        var posVec3 = new Vector3(s + (-chunkSize / 2) + tileChunkPos.X, s + (-chunkSize / 2) + tileChunkPos.Y, 0);
+        var posVec3 = 
+            new Vector3(
+                x: s + (-chunkSize / 2) + tileChunkPos.X, 
+                y: s + (-chunkSize / 2) + tileChunkPos.Y, 
+                z: 0);
 
         var i = 0;
         var v = 0;
@@ -66,23 +88,17 @@ public class Chunk
         {
             for (int x = 0; x < size; x++)
             {
-                //Biomes[biomeData[x, z]].Generate(colors, v);
-
                 vertices[v] = new Vector3(-s, -s, 0) + posVec3;
                 //normals     [v] = new Vector3( 0, 0,  s);
-                //uvs         [v] = new Vector2( 0, 0    );
 
                 vertices[v + 1] = new Vector3(-s, s, 0) + posVec3;
                 //normals [v + 1] = new Vector3( 0, 0, s );
-                //uvs     [v + 1] = new Vector2( 0, s    );
 
                 vertices[v + 2] = new Vector3(s, s, 0) + posVec3;
                 //normals [v + 2] = new Vector3( 0, 0, s );
-                //uvs     [v + 2] = new Vector2( s, s    );	
 
                 vertices[v + 3] = new Vector3(s, -s, 0) + posVec3;
                 //normals [v + 3] = new Vector3( 0, 0, s );
-                //uvs     [v + 3] = new Vector2( s, 0    );
 
                 indices[i] = v;
                 indices[i + 1] = v + 1;
