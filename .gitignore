@@ -6,5 +6,10 @@ Exported/*
 .vs/*
 Properties/*
 
+
+# Visual Code ignores
+launch.json
+tasks.json
+
 # Include these files
 !Properties/.gdignore
