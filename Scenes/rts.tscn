@@ -18,17 +18,22 @@ format = 2
 [node name="Trees" type="TileMap" parent="."]
 tile_set = ExtResource("1_ybika")
 format = 2
-layer_0/tile_data = PackedInt32Array(131072, 393216, 4, 262146, 393216, 4, 196611, 393216, 4, 1, 393216, 4, -65534, 393216, 4, -131070, 393216, 4, -131069, 393216, 4, -131068, 393216, 4, -131067, 393216, 4, -131066, 393216, 4, -65531, 393216, 4, 5, 393216, 4, 65541, 393216, 4, 65540, 393216, 4, 65539, 393216, 4, 65538, 393216, 4, 2, 393216, 4)
+layer_0/tile_data = PackedInt32Array(131072, 393216, 4, 262146, 393216, 4, 196611, 393216, 4, 1, 393216, 4, -65534, 393216, 4, -131070, 393216, 4, -131069, 393216, 4, -131068, 393216, 4, -131067, 393216, 4, -131066, 393216, 4, 65541, 393216, 4, 65540, 393216, 4, 65539, 393216, 4, 65538, 393216, 4, 2, 393216, 4)
 
 [node name="Player" parent="." instance=ExtResource("3_8ce75")]
-position = Vector2(41, 35)
+position = Vector2(120, 8)
 
 [node name="Slime" parent="." instance=ExtResource("4_guf0v")]
-position = Vector2(66, 0)
+position = Vector2(56, 8)
+MaxJumpDist = 40
+JumpSizeScale = Vector2(2, 2.5)
+Debug = true
+ShowStates = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
