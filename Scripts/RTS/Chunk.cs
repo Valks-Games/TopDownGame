@@ -2,23 +2,10 @@
 
 public class Chunk
 {
-    static List<Vector2I> check = new();
-
     public bool Generated { get; set; }
 
     public Chunk(Node parent, int chunkX, int chunkY)
     {
-        if (check.Contains(new Vector2I(chunkX, chunkY)))
-        {
-            Logger.LogWarning($"TRIED TO DUPLICATE CHUNK AT ({chunkX}, {chunkY})");
-            return;
-        }
-        else
-        {
-            check.Add(new Vector2I(chunkX, chunkY));
-            Logger.Log($"There are now {check.Count} chunks in the scene");
-        }
-
         Generated = true;
 
         var chunkParent = new Node2D();
