@@ -87,10 +87,10 @@ public class Chunk
 
                 foreach (var tile in tileLayer.TileData)
                 {
-                    if (currentNoise < tile.Value.Weight)
+                    if (currentNoise < tile.Weight)
                     {
                         // Create collision if tile has one
-                        if (tile.Value.Collision)
+                        if (tile.Collision)
                         {
                             var staticBody2D = new StaticBody2D();
 
@@ -108,8 +108,8 @@ public class Chunk
                             parent.AddChild(staticBody2D);
                         }
 
-                        tileX = tile.Value.UV.X;
-                        tileY = tile.Value.UV.Y;
+                        tileX = tile.UV.X;
+                        tileY = tile.UV.Y;
                         break;
                     }
                 }

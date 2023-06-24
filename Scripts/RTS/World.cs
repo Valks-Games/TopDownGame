@@ -77,8 +77,8 @@ public partial class World : Node
             fnl: grassNoise,
             tileData: new()
             {
-                { "grass_1", new TileData(new Vector2I(3, 1), 10f) },
-                { "grass_2", new TileData(new Vector2I(0, 8), 10f) }
+                { new TileData(new Vector2I(3, 1), 10f) { Name = "grass_1" } },
+                { new TileData(new Vector2I(0, 8), 10f) { Name = "grass_2" } }
             }, 0f));
 
         TileLayers.Add(new(
@@ -87,7 +87,7 @@ public partial class World : Node
             fnl: treeNoise,
             tileData: new()
             {
-                { "tree_1",  new TileData(new Vector2I(6, 4), 50f, true) }
+                { new TileData(new Vector2I(6, 4), 50f, true) { Name = "tree_1" } }
             }, 30f));
     }
 

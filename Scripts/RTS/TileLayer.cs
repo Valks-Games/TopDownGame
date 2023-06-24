@@ -5,11 +5,11 @@ public class TileLayer
     public int ZIndex { get; }
     public FastNoiseLite FNL { get; }
     public Texture2D TileSetImage { get; }
-    public Dictionary<string, TileData> TileData { get; }
+    public List<TileData> TileData { get; }
 
-    public TileLayer(int zindex, string tileSetImagePath, FastNoiseLite fnl, Dictionary<string, TileData> tileData, float emptyWeight = 0f)
+    public TileLayer(int zindex, string tileSetImagePath, FastNoiseLite fnl, List<TileData> tileData, float emptyWeight = 0f)
     {
-        tileData.Add("empty", new TileData(Vector2I.Zero, emptyWeight));
+        tileData.Add(new TileData(Vector2I.Zero, emptyWeight));
         ValidateTileDataWeights(tileData);
 
         this.TileSetImage = GD.Load<Texture2D>($"res://{tileSetImagePath}");
@@ -18,33 +18,32 @@ public class TileLayer
         this.TileData = TransformWeightsToRange(tileData);
     }
 
-    void ValidateTileDataWeights(Dictionary<string, TileData> tileData) 
+    void ValidateTileDataWeights(List<TileData> tileData) 
     {
         // Pre transform validation => if weights are less than 0, throw an exception
-        foreach (var pair in tileData)
-            if (pair.Value.Weight < 0f )
-                throw new Exception($"Weight cannot be less than 0, error thrown by {pair.Key}, weight: {pair.Value.Weight}");
+        foreach (var tile in tileData)
+            if (tile.Weight < 0f )
+                throw new Exception($"Weight cannot be less than 0, error thrown " +
+                    $"by {tile.Name}, weight: {tile.Weight}");
     }
 
-    public Dictionary<string, TileData> TransformWeightsToRange(Dictionary<string, TileData> dictionary)
+    public List<TileData> TransformWeightsToRange(List<TileData> tileData)
     {
-        Dictionary<string, TileData> result = new();
+        List<TileData> result = new();
 
-        float totalWeight = 0f;
-        foreach (var pair in dictionary) totalWeight += pair.Value.Weight;
+        var totalWeight = 0f;
+        foreach (var tile in tileData) 
+            totalWeight += tile.Weight;
     
         // Set current value to the lowerbound of the range
-        float currentValue = -1;
+        var currentValue = -1f;
 
         // Transform the weights to be between [-1, 1], as per FastNoiseLite range
-        foreach (var pair in dictionary)
+        foreach (var tile in tileData)
         {
-            TileData atlasWeight = pair.Value;
-            float weight = atlasWeight.Weight;
+            currentValue += tile.Weight / totalWeight * 2;
     
-            currentValue += weight / totalWeight * 2;
-    
-            result.Add(pair.Key, new TileData(atlasWeight.UV, currentValue, atlasWeight.Collision));
+            result.Add(new TileData(tile.UV, currentValue, tile.Collision));
         }
         return result;
     }
