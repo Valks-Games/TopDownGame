@@ -45,11 +45,11 @@ public partial class World : Node
             }
         }
 
-        //new ChunkPredefined(parentChunks, 0, 0, tileLayers);
+        new ChunkPredefined(parentChunks, 0, 0, tileLayers);
 
         SetupTileLayers();
-        //GenerateChunk(0, 0);
-        GenerateSpawn();
+        GenerateChunk(1, 0);
+        //GenerateSpawn();
     }
 
     public void GenerateChunk(int x, int y)
