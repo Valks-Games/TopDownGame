@@ -24,6 +24,18 @@ public partial class World : Node
         };
         AddChild(parentChunks);
 
+        SetupTileLayers();
+        GenerateSpawn();
+    }
+
+    public void GenerateChunk(int x, int y)
+    {
+        var chunk = new Chunk(parentChunks, x, y);
+        Chunks[new Vector2I(x, y)] = chunk;
+    }
+
+    void SetupTileLayers()
+    {
         var grassNoise = new FastNoiseLite
         {
             Frequency = 0.1f
@@ -38,7 +50,7 @@ public partial class World : Node
         TileLayers.Add(new(
             zindex: -10,
             tileSetImagePath: "Sprites/basictiles.png",
-            fnl: grassNoise, 
+            fnl: grassNoise,
             tileData: new()
             {
                 { "grass_1", new TileData(new Vector2I(3, 1), 10f) },
@@ -48,19 +60,11 @@ public partial class World : Node
         TileLayers.Add(new(
             zindex: -9,
             tileSetImagePath: "Sprites/basictiles.png",
-            fnl: treeNoise, 
+            fnl: treeNoise,
             tileData: new()
             {
                 { "tree_1",  new TileData(new Vector2I(6, 4), 50f, true) }
             }, 30f));
-
-        GenerateSpawn();
-    }
-
-    public void GenerateChunk(int x, int y)
-    {
-        var chunk = new Chunk(parentChunks, x, y);
-        Chunks[new Vector2I(x, y)] = chunk;
     }
 
     void GenerateSpawn()
