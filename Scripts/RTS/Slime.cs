@@ -8,6 +8,9 @@ public partial class Slime : Monster
     [Export] public double JumpDuration { get; set; } = 0.75d;
     [Export] public Vector2 JumpSizeScale { get; set; } = new Vector2(3, 4);
     [Export] public bool Debug { get; set; } = false;
+    [Export] public int MaxPathingDistanceInTiles { get; set; } = 20;
+    // TODO: Should be moved to Monster.cs?
+    [Export] public bool CanFly { get; set; } = false;
     
 
     protected override State InitialState() => Idle();

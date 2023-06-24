@@ -3,16 +3,7 @@ namespace RTS;
 public partial class Slime {
     
 #region CollisionDetection
-    private Vector2 CalculateJumpPosition(){
-        // Jump towards player
-        var diff = player.Position - Position;
-        var dir = diff.Normalized();
 
-        // Do not go past player
-        var dist = Mathf.Min(diff.Length(), MaxJumpDist);
-
-        return dir * dist;
-    }
 
     /// <summary>
     /// Calculates all the tiles the character will touch on the tilemap coordinate system using the point it's moving towards

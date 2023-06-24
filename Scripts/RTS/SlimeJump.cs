@@ -15,6 +15,8 @@ public partial class Slime
             var touchTiles = CalculateTileVectors();
             var hasCollision =  ValidateCollisionForList(touchTiles);
             if(hasCollision) {
+                CalculateMovableCoordinates();
+                var points = pathPoints;
                 SwitchState(Idle());
                 return;
             }
@@ -24,7 +26,16 @@ public partial class Slime
 
         return state;
     }
+    private Vector2 CalculateJumpPosition(){
+        // Jump towards player
+        var diff = player.Position - Position;
+        var dir = diff.Normalized();
 
+        // Do not go past player
+        var dist = Mathf.Min(diff.Length(), MaxJumpDist);
+
+        return dir * dist;
+    }
 
 #region Animation
     private void MoveCharacter(Vector2 jumpPos)
