@@ -2,7 +2,7 @@ namespace RTS;
 
 public partial class Slime {
     
-#region Pathing
+#region CollisionDetection
     private Vector2 CalculateJumpPosition(){
         // Jump towards player
         var diff = player.Position - Position;
@@ -13,7 +13,6 @@ public partial class Slime {
 
         return dir * dist;
     }
-
 
     /// <summary>
     /// Calculates all the tiles the character will touch on the tilemap coordinate system using the point it's moving towards
@@ -72,8 +71,8 @@ public partial class Slime {
     /// <param name="direction"></param>
     /// <returns></returns>
     private List<Vector2I> GetOuterCornersAndCenter(Vector2 direction){
-        var result = new List<Vector2I>();
         var corner = World.TileSize / 2 - 2;
+        var result = new List<Vector2I>();
         result.Add(Vector2I.Zero);
         if((direction.X >= 0 && direction.Y >= 0) || (direction.X < 0 && direction.Y < 0)) {
             result.Add(new Vector2I(-corner, corner));
@@ -116,7 +115,9 @@ public partial class Slime {
 
         return hasCollision;
     }
-#endregion Pathing
+
+    
+#endregion CollisionDetection
 #region Debugging
     List<debugLine> lines = new List<debugLine>();
     private class debugLine
@@ -149,5 +150,4 @@ public partial class Slime {
         lines.Clear();
     }
 #endregion Debugging
-
 }
