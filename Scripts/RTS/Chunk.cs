@@ -18,7 +18,7 @@ public class Chunk
         parent.AddChild(chunkParent);
     }
 
-    MeshInstance2D GenerateMesh(Node2D parent, int chunkX, int chunkY, TileLayer atlas)
+    MeshInstance2D GenerateMesh(Node2D parent, int chunkX, int chunkY, TileLayer tileLayer)
     {
         var size = World.ChunkSize;
         var vertices = new Vector3[4 * size * size];
@@ -33,7 +33,7 @@ public class Chunk
         for (int m = 0; m < uvs.Length; m++)
             uvs[m] = new Vector2(0, 0);
 
-        var image = atlas.TileSetImage;
+        var image = tileLayer.TileSetImage;
 
         var tileOffset = World.TileSize / 2; // hard coded size
         var width = tileOffset * 2; // width
@@ -83,14 +83,14 @@ public class Chunk
                 // Obtain the appropriate tile based on current noise
                 var globalX = (chunkX * World.ChunkSize) + x;
                 var globalY = (chunkY * World.ChunkSize) + y;
-                var currentNoise = atlas.FNL.GetNoise2D(globalX, globalY);
+                var currentNoise = tileLayer.FNL.GetNoise2D(globalX, globalY);
 
-                foreach (var atlasValue in atlas.TileData)
+                foreach (var tile in tileLayer.TileData)
                 {
-                    if (currentNoise < atlasValue.Value.Weight)
+                    if (currentNoise < tile.Value.Weight)
                     {
                         // Create collision if tile has one
-                        if (atlasValue.Value.Collision)
+                        if (tile.Value.Collision)
                         {
                             var staticBody2D = new StaticBody2D();
 
@@ -108,8 +108,8 @@ public class Chunk
                             parent.AddChild(staticBody2D);
                         }
 
-                        tileX = atlasValue.Value.UV.X;
-                        tileY = atlasValue.Value.UV.Y;
+                        tileX = tile.Value.UV.X;
+                        tileY = tile.Value.UV.Y;
                         break;
                     }
                 }
@@ -154,7 +154,7 @@ public class Chunk
         return new MeshInstance2D
         {
             Mesh = mesh,
-            ZIndex = atlas.ZIndex,
+            ZIndex = tileLayer.ZIndex,
             Texture = image
         };
     }
