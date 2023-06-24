@@ -33,7 +33,7 @@ public class Chunk
         for (int m = 0; m < uvs.Length; m++)
             uvs[m] = new Vector2(0, 0);
 
-        var tex = GD.Load<Texture2D>("res://Sprites/basictiles.png");
+        var image = atlas.TileSetImage;
 
         var tileOffset = World.TileSize / 2; // hard coded size
         var width = tileOffset * 2; // width
@@ -56,10 +56,10 @@ public class Chunk
         var tileX = 0;
         var tileY = 0;
 
-        var texSize = tex.GetSize();
+        var imageSize = image.GetSize();
 
-        var tileWidth = World.TileSize / texSize.X;
-        var tileHeight = World.TileSize / texSize.Y;
+        var tileWidth = World.TileSize / imageSize.X;
+        var tileHeight = World.TileSize / imageSize.Y;
 
         for (int x = 0; x < size; x++)
         {
@@ -115,8 +115,8 @@ public class Chunk
                 }
 
                 // UVs
-                var u = (World.TileSize * tileX) / texSize.X;
-                var v = (World.TileSize * tileY) / texSize.Y;
+                var u = (World.TileSize * tileX) / imageSize.X;
+                var v = (World.TileSize * tileY) / imageSize.Y;
 
                 uvs[vIndex] = new Vector2(u, v);
                 uvs[vIndex + 1] = new Vector2(u, v + tileHeight);
@@ -155,7 +155,7 @@ public class Chunk
         {
             Mesh = mesh,
             ZIndex = atlas.ZIndex,
-            Texture = tex
+            Texture = image
         };
     }
 }

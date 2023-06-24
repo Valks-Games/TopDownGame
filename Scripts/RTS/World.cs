@@ -31,12 +31,13 @@ public partial class World : Node
 
         var treeNoise = new FastNoiseLite
         {
-            Frequency = 0.3f,
+            Frequency = 0.05f,
             Offset = new Vector3(1000, 0, 0)
         };
 
         TileLayers.Add(new(
-            zindex: -10, 
+            zindex: -10,
+            tileSetImagePath: "Sprites/basictiles.png",
             fnl: grassNoise, 
             tileData: new()
             {
@@ -45,11 +46,12 @@ public partial class World : Node
             }, 0f));
 
         TileLayers.Add(new(
-            zindex: -9, 
+            zindex: -9,
+            tileSetImagePath: "Sprites/basictiles.png",
             fnl: treeNoise, 
             tileData: new()
             {
-                { "tree_1",  new TileData(new Vector2I(6, 4), 10f, true) }
+                { "tree_1",  new TileData(new Vector2I(6, 4), 50f, true) }
             }, 30f));
 
         GenerateSpawn();
