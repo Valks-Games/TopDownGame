@@ -1,6 +1,6 @@
 ﻿namespace RTS;
 
-public class ChunkPredefined
+/*public class ChunkPredefined
 {
     public ChunkPredefined(Node parent, int chunkX, int chunkY, List<TileLayerPredefined> predefinedLayers)
     {
@@ -123,3 +123,4 @@ public class ChunkPredefined
         };
     }
 }
+*/

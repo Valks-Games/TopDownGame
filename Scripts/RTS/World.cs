@@ -25,27 +25,12 @@ public partial class World : Node
         AddChild(parentChunks);
 
         // DEBUG
-        var predefinedChunk = GD.Load<PackedScene>("res://Scenes/Prefabs/test.tscn");
-        var layer0 = 0;
-        var tileLayers = new List<TileLayerPredefined>();
-
-        foreach (TileMap tileMap in predefinedChunk.Instantiate().GetChildren())
-        {
-            var tileLayer = new TileLayerPredefined();
-            tileLayers.Add(tileLayer);
-            var source = tileMap.TileSet.GetSource(0) as TileSetAtlasSource;
-            tileLayer.Image = source.Texture;
-            tileLayer.ZIndex = tileMap.ZIndex;
-
-            foreach (var pos in tileMap.GetUsedCells(layer0))
-            {
-                var uvs = tileMap.GetCellAtlasCoords(layer0, pos);
-
-                tileLayer.Data[pos] = uvs;
-            }
-        }
-
-        new ChunkPredefined(parentChunks, 0, 0, tileLayers);
+        var prefab = GD.Load<PackedScene>("res://Scenes/Prefabs/test.tscn");
+        var definedChunk = prefab.Instantiate<DefinedChunk>();
+        definedChunk.Init();
+        var tileLayers = definedChunk.TileLayers;
+        //GD.Print(tileLayers.Count);
+        definedChunk.QueueFree();
 
         SetupTileLayers();
         GenerateChunk(1, 0);
