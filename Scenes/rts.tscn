@@ -15,10 +15,10 @@ tile_set = ExtResource("1_ybika")
 format = 2
 
 [node name="Player" parent="." instance=ExtResource("3_8ce75")]
-position = Vector2(20, 19)
+position = Vector2(217, -6.5)
 
 [node name="Slime" parent="." instance=ExtResource("4_guf0v")]
-position = Vector2(66, 0)
+position = Vector2(105, 45)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -32,6 +32,7 @@ theme_override_constants/margin_left = 40
 theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 40
 theme_override_constants/margin_bottom = 40
+metadata/_edit_lock_ = true
 
 [node name="GridContainer" type="GridContainer" parent="CanvasLayer/MarginContainer"]
 layout_mode = 2
@@ -40,3 +41,4 @@ size_flags_vertical = 4
 columns = 4
 script = ExtResource("5_m8s8e")
 TotalCards = 1
+metadata/_edit_lock_ = true

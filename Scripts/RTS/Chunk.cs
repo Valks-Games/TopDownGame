@@ -18,7 +18,7 @@ public class Chunk
         parent.AddChild(chunkParent);
     }
 
-    MeshInstance2D GenerateMesh(Node2D parent, int chunkX, int chunkY, TileLayer atlas)
+    MeshInstance2D GenerateMesh(Node2D parent, int chunkX, int chunkY, TileLayer tileLayer)
     {
         var size = World.ChunkSize;
         var vertices = new Vector3[4 * size * size];
@@ -33,7 +33,7 @@ public class Chunk
         for (int m = 0; m < uvs.Length; m++)
             uvs[m] = new Vector2(0, 0);
 
-        var tex = GD.Load<Texture2D>("res://Sprites/basictiles.png");
+        var image = tileLayer.TileSetImage;
 
         var tileOffset = World.TileSize / 2; // hard coded size
         var width = tileOffset * 2; // width
@@ -56,10 +56,10 @@ public class Chunk
         var tileX = 0;
         var tileY = 0;
 
-        var texSize = tex.GetSize();
+        var imageSize = image.GetSize();
 
-        var tileWidth = World.TileSize / texSize.X;
-        var tileHeight = World.TileSize / texSize.Y;
+        var tileWidth = World.TileSize / imageSize.X;
+        var tileHeight = World.TileSize / imageSize.Y;
 
         for (int x = 0; x < size; x++)
         {
@@ -83,14 +83,14 @@ public class Chunk
                 // Obtain the appropriate tile based on current noise
                 var globalX = (chunkX * World.ChunkSize) + x;
                 var globalY = (chunkY * World.ChunkSize) + y;
-                var currentNoise = atlas.FNL.GetNoise2D(globalX, globalY);
+                var currentNoise = tileLayer.FNL.GetNoise2D(globalX, globalY);
 
-                foreach (var atlasValue in atlas.TileData)
+                foreach (var tile in tileLayer.TileData)
                 {
-                    if (currentNoise < atlasValue.Value.Weight)
+                    if (currentNoise < tile.Value.Weight)
                     {
                         // Create collision if tile has one
-                        if (atlasValue.Value.Collision)
+                        if (tile.Value.Collision)
                         {
                             var staticBody2D = new StaticBody2D();
 
@@ -108,15 +108,15 @@ public class Chunk
                             parent.AddChild(staticBody2D);
                         }
 
-                        tileX = atlasValue.Value.UV.X;
-                        tileY = atlasValue.Value.UV.Y;
+                        tileX = tile.Value.UV.X;
+                        tileY = tile.Value.UV.Y;
                         break;
                     }
                 }
 
                 // UVs
-                var u = (World.TileSize * tileX) / texSize.X;
-                var v = (World.TileSize * tileY) / texSize.Y;
+                var u = (World.TileSize * tileX) / imageSize.X;
+                var v = (World.TileSize * tileY) / imageSize.Y;
 
                 uvs[vIndex] = new Vector2(u, v);
                 uvs[vIndex + 1] = new Vector2(u, v + tileHeight);
@@ -154,8 +154,8 @@ public class Chunk
         return new MeshInstance2D
         {
             Mesh = mesh,
-            ZIndex = atlas.ZIndex,
-            Texture = tex
+            ZIndex = tileLayer.ZIndex,
+            Texture = image
         };
     }
 }

@@ -4,13 +4,15 @@ public class TileLayer
 {
     public int ZIndex { get; }
     public FastNoiseLite FNL { get; }
+    public Texture2D TileSetImage { get; }
     public Dictionary<string, TileData> TileData { get; }
 
-    public TileLayer(int zindex, FastNoiseLite fnl, Dictionary<string, TileData> tileData, float emptyWeight = 0f)
+    public TileLayer(int zindex, string tileSetImagePath, FastNoiseLite fnl, Dictionary<string, TileData> tileData, float emptyWeight = 0f)
     {
         tileData.Add("empty", new TileData(Vector2I.Zero, emptyWeight));
         ValidateTileDataWeights(tileData);
 
+        this.TileSetImage = GD.Load<Texture2D>($"res://{tileSetImagePath}");
         this.ZIndex = zindex;
         this.FNL = fnl;
         this.TileData = TransformWeightsToRange(tileData);
