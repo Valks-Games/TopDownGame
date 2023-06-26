@@ -35,12 +35,14 @@ shape = SubResource("RectangleShape2D_f6lr7")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(4, 4)
+position_smoothing_enabled = true
 
 [node name="centerPivot" type="Node2D" parent="."]
 
 [node name="sword" type="Sprite2D" parent="centerPivot"]
 z_index = -1
-position = Vector2(8.415, -10.79)
+position = Vector2(9.53674e-07, -9.53674e-07)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_ekq5j")
+offset = Vector2(44.52, -55.06)
 script = ExtResource("4_mf0wm")
