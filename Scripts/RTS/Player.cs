@@ -8,13 +8,13 @@ public partial class Player : Entity
 
     int prevChunkX, prevChunkY;
     int chunkSpawnRadius = 3;
-    GTimer timer;
+    //GTimer timer;
 
     protected override void Init()
     {
-        timer = new(this, 2000) { Loop = true };
-        timer.Finished += SpawnNewChunks;
-        timer.Start();
+        //timer = new(this, 2000) { Loop = true };
+        //timer.Finished += SpawnNewChunks;
+        //timer.Start();
     }
     
     protected override void Update()
