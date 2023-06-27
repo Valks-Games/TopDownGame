@@ -29,7 +29,9 @@ size = Vector2(14, 10)
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("1_rqstu")
-DurationIdle = 0
+DurationIdle = 1000
+MaxSpeed = 150.0
+Acceleration = 1000.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_gii3p")

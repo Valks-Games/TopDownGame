@@ -2,27 +2,31 @@ namespace RTS;
 
 public partial class Walker : Monster
 {
-    [Export] public int MaxJumpDist { get; set; } = 100;
     [Export] public int DurationIdle { get; set; } = 2000;
-    [Export] public int DurationPreJump { get; set; } = 1000;
-    [Export] public double JumpDuration { get; set; } = 0.75d;
-    [Export] public Vector2 JumpSizeScale { get; set; } = new Vector2(3, 4);
     [Export] public bool Debug { get; set; } = false;
     [Export] public int MaxPathingDistanceInTiles { get; set; } = 20;
     [Export] public bool CanFly { get; set; } = false;
+    
+    [Export]
+    public float MaxSpeed { get; set; } = 1000;
+    [Export]
+    public float Acceleration { get; set; } = 10000;
+    
+    public float ModifierMultiplier { get; set; } = 1;
+    public float CalculatedMaxSpeed => MaxSpeed * ModifierMultiplier;
     
 
     protected override State InitialState() => Idle();
 
     #region Debugging
-    List<debugLine> lines = new List<debugLine>();
-    private class debugLine
+    List<DebugLine> debuglines = new List<DebugLine>();
+    private class DebugLine
     {
         public Vector2 start;
         public Vector2 end;
         public Color color;
         public float width;
-        public debugLine(Vector2 start, Vector2 end, Color color, float width)
+        public DebugLine(Vector2 start, Vector2 end, Color color, float width)
         {
             this.start = start;
             this.end = end;
@@ -35,15 +39,18 @@ public partial class Walker : Monster
     {
         var localCharLinePos = ToLocal(Position + tilePoint);
         var localMovementPos = ToLocal(movementPosition + tilePoint);
-        lines.Add(new debugLine(localCharLinePos, localMovementPos, Colors.Orange, 2f));
+        debuglines.Add(new DebugLine(localCharLinePos, localMovementPos, Colors.Orange, 2f));
     }
     
     public override void _Draw(){
-        foreach (var line in lines)
+
+        if(OS.IsDebugBuild() == false || Debug == false) return;
+        
+        foreach (var line in debuglines)
         {
             DrawLine(line.start, line.end, line.color, line.width);
         }
-        lines.Clear();
+        debuglines.Clear();
     }
 #endregion Debugging
 }

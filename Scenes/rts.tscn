@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://20ccagt07hcn"]
+[gd_scene load_steps=6 format=3 uid="uid://20ccagt07hcn"]
 
 [ext_resource type="Script" path="res://Scripts/RTS/World.cs" id="1_6qhqq"]
 [ext_resource type="TileSet" uid="uid://cems042eylelv" path="res://Resources/Tilesets/grass_16.tres" id="1_ybika"]
 [ext_resource type="PackedScene" uid="uid://xoi0vfie6qq2" path="res://Scenes/Prefabs/player_rts.tscn" id="3_8ce75"]
-[ext_resource type="PackedScene" uid="uid://3q0ylr65w8rq" path="res://Scenes/Prefabs/slime.tscn" id="4_guf0v"]
 [ext_resource type="PackedScene" uid="uid://bp1ivcjg6y2cy" path="res://Scenes/Prefabs/walkman.tscn" id="5_iarlv"]
 [ext_resource type="Script" path="res://Scripts/UI/UICardManager.cs" id="5_m8s8e"]
 
@@ -22,13 +21,7 @@ format = 2
 layer_0/tile_data = PackedInt32Array(131072, 393216, 4, 262146, 393216, 4, 196611, 393216, 4, 1, 393216, 4, -65534, 393216, 4, -131070, 393216, 4, -131069, 393216, 4, -131068, 393216, 4, -131067, 393216, 4, -131066, 393216, 4, 65541, 393216, 4, 65540, 393216, 4, 65539, 393216, 4, 65538, 393216, 4, 2, 393216, 4)
 
 [node name="Player" parent="." instance=ExtResource("3_8ce75")]
-position = Vector2(120, -8)
-
-[node name="Slime" parent="." instance=ExtResource("4_guf0v")]
-position = Vector2(56, 8)
-JumpSizeScale = Vector2(2, 2.5)
-Debug = true
-ShowStates = true
+position = Vector2(40, 56)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -53,4 +46,6 @@ script = ExtResource("5_m8s8e")
 TotalCards = 1
 
 [node name="Walkman" parent="." instance=ExtResource("5_iarlv")]
-position = Vector2(80, -40)
+position = Vector2(56, 8)
+DurationIdle = 2500
+MaxSpeed = 250.0
