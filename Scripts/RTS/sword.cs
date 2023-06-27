@@ -1,5 +1,4 @@
-using Godot;
-using System;
+namespace RTS;
 
 public partial class Sword : Sprite2D
 {
