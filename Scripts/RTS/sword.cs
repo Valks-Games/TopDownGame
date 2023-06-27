@@ -2,26 +2,26 @@ namespace RTS;
 
 public partial class Sword : Sprite2D
 {
-    Node2D center;
+    Node2D pivot;
     GTween tween;
 
     public override void _Ready()
     {
-        center = GetParent<Node2D>();
-        tween = new GTween(center);
+        pivot = GetParent<Node2D>();
+        tween = new GTween(pivot);
         tween.Create();
         tween.Pause();
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        var mouseDir = (GetGlobalMousePosition() - center.GlobalPosition).Normalized();
-        center.Rotation = Mathf.LerpAngle(center.Rotation, mouseDir.Angle(), 0.08f);
+        var mouseDir = (GetGlobalMousePosition() - pivot.GlobalPosition).Normalized();
+        pivot.Rotation = Mathf.LerpAngle(pivot.Rotation, mouseDir.Angle(), 0.08f);
 
-        var rot = center.Rotation;
+        var rot = pivot.Rotation;
         if (Input.IsActionJustPressed("interact") && !tween.IsRunning())
         {
-            tween = new GTween(center);
+            tween = new GTween(pivot);
             tween.Create();
             // swing forwards
             tween.Animate("rotation", rot + Mathf.Pi / 2, 
