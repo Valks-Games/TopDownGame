@@ -2,9 +2,9 @@ namespace RTS;
 
 public partial class Sword : Sprite2D
 {
-    private Node2D center;
-    private int dir;
-    private GTween tween;
+    Node2D center;
+    int dir;
+    GTween tween;
 
     public override void _Ready()
     {
