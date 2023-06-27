@@ -36,9 +36,9 @@ shape = SubResource("RectangleShape2D_f6lr7")
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(4, 4)
 
-[node name="centerPivot" type="Node2D" parent="."]
+[node name="CenterPivot" type="Node2D" parent="."]
 
-[node name="sword" type="Sprite2D" parent="centerPivot"]
+[node name="Sword" type="Sprite2D" parent="CenterPivot"]
 z_index = -1
 position = Vector2(9.53674e-07, -9.53674e-07)
 scale = Vector2(0.2, 0.2)
