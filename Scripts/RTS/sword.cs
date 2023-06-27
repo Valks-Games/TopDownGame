@@ -3,7 +3,6 @@ namespace RTS;
 public partial class Sword : Sprite2D
 {
     Node2D center;
-    int dir;
     GTween tween;
 
     public override void _Ready()
@@ -16,18 +15,8 @@ public partial class Sword : Sprite2D
 
     public override void _PhysicsProcess(double delta)
     {
-        //center.LookAt(GetGlobalMousePosition());
-        //center.RotationDegrees -= 45 * dir;
         var mouseDir = (GetGlobalMousePosition() - center.GlobalPosition).Normalized();
-        dir = Mathf.Sign(mouseDir.X);
         center.Rotation = Mathf.LerpAngle(center.Rotation, mouseDir.Angle(), 0.08f);
-        // if (!tween.IsRunning())
-        // {
-        //     if (mouseDir.X < 0)
-        //         center.Scale = new Vector2(1, -1);
-        //     else
-        //         center.Scale = new Vector2(1, 1);
-        // }
 
         var rot = center.Rotation;
         if (Input.IsActionJustPressed("interact") && !tween.IsRunning())
