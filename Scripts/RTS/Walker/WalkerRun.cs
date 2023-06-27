@@ -1,23 +1,37 @@
-﻿namespace RTS;
+namespace RTS;
 
-public partial class Slime
+public partial class Walker
 {
     
-    State Jump()
+    State Run()
     {
         var state = new State("Jump");
 
         state.Enter = () =>
         {
-            sprite.Play("idle");
+            if(player == null) {
+                SwitchState(Idle());
+                return;
+            }
 
             var jumpPos = CalculateJumpPosition();
+            var touchTiles = CalculateTileVectors();
+            var hasCollision =  ValidateCollisionForList(touchTiles);
+            if(hasCollision) {
+                CalculateMovableCoordinates();
+                var pathToPlayer = GetPathPoint((Vector2I)(player.Position / World.TileSize));
+                // should be run to enemy
+                SwitchState(Idle());
+                return;
+            }
             MoveCharacter(jumpPos);
             ScaleUpAndDown();
         };
 
         return state;
     }
+
+
     private Vector2 CalculateJumpPosition(){
         // Jump towards player
         var diff = player.Position - Position;

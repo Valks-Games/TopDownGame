@@ -1,18 +1,46 @@
 namespace RTS;
 
-public partial class Slime {
+public partial class Walker {
     private int remainingSpeed = 0;
     // calculation Lists
     private List<Vector2I> currentSpeedCoordinates;
     private List<Vector2I> nextSpeedCoordinates;
     private List<Vector2I> collectedCoordinates;
-    // calculated Path
+    // Path to each point in the calculated circle, with the last point being the path to the player
     public Dictionary<Vector2I, PathPoint> pathPoints { get; private set; }
+
+
+    /// <summary>
+    /// First use CalculateMovableCoordinates() to calculate the path to the player
+    /// Then use this function to get the path to a specific point, such as the point to the player
+    /// </summary>
+    /// <param name="point">The point on the tilemap</param>
+    /// <returns></returns>
+    public PathPoint GetPathPoint(Vector2I point)
+    {
+        if (pathPoints.ContainsKey(point))
+        {
+            return pathPoints[point];
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// First use CalculateMovableCoordinates() to calculate the path to the player
+    /// Then use this function to get the path to a specific point, such as the point to the player
+    /// </summary>
+    /// <param name="point">The point on the world</param>
+    /// <returns></returns>
+    public PathPoint GetPathPointWorldBased(Vector2 point) => 
+        GetPathPoint((Vector2I) (point / World.TileSize));
+    
+    
 
     public List<Vector2I> CalculateMovableCoordinates()
     {
         ResetLists();
         GetCoordinates();
+        // return the last pathpoint, which is the path to the player
         return collectedCoordinates;
     }
 
@@ -25,7 +53,7 @@ public partial class Slime {
         collectedCoordinates = new List<Vector2I>(); 
         pathPoints = new Dictionary<Vector2I, PathPoint>();
 
-        AddVectorToLists((Vector2I) Position); // add current position to the list
+        AddVectorToLists((Vector2I) (Position / World.TileSize)); // add current position to the list
         
         currentSpeedCoordinates = new List<Vector2I>(collectedCoordinates);
         remainingSpeed = MaxPathingDistanceInTiles;
@@ -98,7 +126,7 @@ public partial class Slime {
             nextSpeedCoordinates.Add(coord);
             PathPoint previousPoint = pathPoints[previousCoord];
             AddVectorToLists(coord,previousPoint, distance);
-            return coord == (Vector2I) player.Position;
+            return coord == (Vector2I) (player.Position / World.TileSize);
         }
         return false;
     }

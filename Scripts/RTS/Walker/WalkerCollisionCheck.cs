@@ -1,6 +1,6 @@
 namespace RTS;
 
-public partial class Slime {
+public partial class Walker {
     
 #region CollisionDetection
 
