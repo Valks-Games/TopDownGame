@@ -3,6 +3,7 @@ namespace RTS;
 public partial class Player : Entity
 {
     public float Speed { get; set; } = 10;
+    public float DashSpeed { get; set; } = 20;
     public float Friction { get; set; } = 0.1f;
 
     int prevChunkX, prevChunkY;
@@ -66,9 +67,10 @@ public partial class Player : Entity
 
         state.Update = () =>
         {
-            // Velocity is mutiplied by delta for us already
             if (Input.IsActionJustPressed("sprint"))
-                Velocity += GUtils.GetMovementInput() * Speed * 20;
+                Velocity += GUtils.GetMovementInput() * Speed * DashSpeed;
+
+            // Velocity is mutiplied by delta for us already
             Velocity += GUtils.GetMovementInput() * Speed;
             Velocity = Velocity.Lerp(Vector2.Zero, Friction);
         };
