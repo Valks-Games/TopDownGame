@@ -35,7 +35,6 @@ shape = SubResource("RectangleShape2D_f6lr7")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(4, 4)
-position_smoothing_enabled = true
 
 [node name="centerPivot" type="Node2D" parent="."]
 
