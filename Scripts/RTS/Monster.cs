@@ -1,4 +1,4 @@
-﻿namespace RTS;
+namespace RTS;
 
 public abstract partial class Monster : Entity
 {
