@@ -16,7 +16,10 @@ public partial class Sword : Sprite2D
     public override void _PhysicsProcess(double delta)
     {
         var mouseDir = (GetGlobalMousePosition() - pivot.GlobalPosition).Normalized();
-        pivot.Rotation = Mathf.LerpAngle(pivot.Rotation, mouseDir.Angle(), 0.08f);
+        var swordRotAcc = 0.08f;
+        var rotOffset = Mathf.Pi / 6;
+
+        pivot.Rotation = Mathf.LerpAngle(pivot.Rotation, mouseDir.Angle() - rotOffset, swordRotAcc);
 
         var rot = pivot.Rotation;
         if (Input.IsActionJustPressed("interact") && !tween.IsRunning())
