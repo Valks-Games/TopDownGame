@@ -41,6 +41,12 @@ public partial class Walker : Monster
         var localMovementPos = ToLocal(movementPosition + tilePoint);
         debuglines.Add(new DebugLine(localCharLinePos, localMovementPos, Colors.Orange, 2f));
     }
+
+    public override void _Process(double delta)
+    {
+        if(OS.IsDebugBuild() == true || Debug == true) QueueRedraw();
+        base._Process(delta);
+    }
     
     public override void _Draw(){
 

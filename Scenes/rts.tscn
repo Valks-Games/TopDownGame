@@ -47,5 +47,3 @@ TotalCards = 1
 
 [node name="Walkman" parent="." instance=ExtResource("5_iarlv")]
 position = Vector2(56, 8)
-DurationIdle = 2500
-MaxSpeed = 250.0
