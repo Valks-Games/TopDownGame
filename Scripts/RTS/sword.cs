@@ -21,7 +21,6 @@ public partial class Sword : Sprite2D
         var rot = pivot.Rotation;
         if (Input.IsActionJustPressed("interact") && !tween.IsRunning())
         {
-            tween = new GTween(pivot);
             tween.Create();
             // swing forwards
             tween.Animate("rotation", rot + Mathf.Pi / 2, 
