@@ -28,6 +28,11 @@ public partial class Sword : Sprite2D
             // swing forwards
             tween.Animate("rotation", rot + Mathf.Pi / 2, 
                     duration: .3)
+
+            // Swing backwards
+            tween.Animate("rotation", pivot.Rotation - Mathf.Pi / 4,
+                    duration: 0.4)
+                .SetTrans(Tween.TransitionType.Sine);
                 .SetTrans(Tween.TransitionType.Quint)
                 .SetEase(Tween.EaseType.Out);
         }
