@@ -21,18 +21,18 @@ public partial class Sword : Sprite2D
 
         pivot.Rotation = Mathf.LerpAngle(pivot.Rotation, mouseDir.Angle() - rotOffset, swordRotAcc);
 
-        var rot = pivot.Rotation;
         if (Input.IsActionJustPressed("interact") && !tween.IsRunning())
         {
             tween.Create();
-            // swing forwards
-            tween.Animate("rotation", rot + Mathf.Pi / 2, 
-                    duration: .3)
 
             // Swing backwards
             tween.Animate("rotation", pivot.Rotation - Mathf.Pi / 4,
                     duration: 0.4)
                 .SetTrans(Tween.TransitionType.Sine);
+
+            // Swing forwards
+            tween.Animate("rotation", pivot.Rotation + Mathf.Pi / 4, 
+                    duration: 0.2)
                 .SetTrans(Tween.TransitionType.Quint)
                 .SetEase(Tween.EaseType.Out);
         }
