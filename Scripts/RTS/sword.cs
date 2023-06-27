@@ -7,7 +7,6 @@ public partial class Sword : Sprite2D
     private int dir;
     private GTween tween;
 
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         center = GetParent<Node2D>();
@@ -16,7 +15,6 @@ public partial class Sword : Sprite2D
         tween.Pause();
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _PhysicsProcess(double delta)
     {
         //center.LookAt(GetGlobalMousePosition());
