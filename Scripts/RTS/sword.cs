@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class sword : Sprite2D
+public partial class Sword : Sprite2D
 {
     private Node2D center;
     private int dir;
