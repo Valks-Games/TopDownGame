@@ -39,7 +39,6 @@ zoom = Vector2(4, 4)
 [node name="CenterPivot" type="Node2D" parent="."]
 
 [node name="Sword" type="Sprite2D" parent="CenterPivot"]
-z_index = -1
 position = Vector2(14, 0)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_ekq5j")

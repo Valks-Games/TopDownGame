@@ -6,31 +6,23 @@ public partial class World : Node
     public static World Instance { get; private set; }
 
     public static List<TileLayer> TileLayers { get; } = new();
-
     public static Dictionary<Vector2I, Chunk> Chunks { get; } = new();
     public static int ChunkSize { get; } = 10;
     public static int TileSize { get; } = 16;
     public static int SpawnRadius { get; } = 3;
 
-    Node2D parentChunks;
-
     public override void _Ready()
     {
         Instance = this;
 
-        parentChunks = new Node2D
-        {
-            Name = "Chunks"
-        };
-        AddChild(parentChunks);
-
         SetupTileLayers();
+        //GenerateChunk(0, 0);
         GenerateSpawn();
     }
 
     public void GenerateChunk(int x, int y)
     {
-        var chunk = new Chunk(parentChunks, x, y);
+        var chunk = new Chunk(x, y);
         Chunks[new Vector2I(x, y)] = chunk;
     }
 
@@ -47,24 +39,19 @@ public partial class World : Node
             Offset = new Vector3(1000, 0, 0)
         };
 
-        TileLayers.Add(new(
-            zindex: -10,
-            tileSetImagePath: "Sprites/basictiles.png",
-            fnl: grassNoise,
-            tileData: new()
-            {
-                { "grass_1", new TileData(new Vector2I(3, 1), 10f) },
-                { "grass_2", new TileData(new Vector2I(0, 8), 10f) }
-            }, 0f));
+        var grassLayer = new TileLayer(GetNode<TileMap>("Grass"), grassNoise, new Dictionary<string, TileData>
+        {
+            { "grass_1", new TileData(new Vector2I(3, 1), 33) },
+            { "grass_2", new TileData(new Vector2I(0, 8), 33) }
+        }, 0);
 
-        TileLayers.Add(new(
-            zindex: -9,
-            tileSetImagePath: "Sprites/basictiles.png",
-            fnl: treeNoise,
-            tileData: new()
-            {
-                { "tree_1",  new TileData(new Vector2I(6, 4), 50f, true) }
-            }, 30f));
+        var treeLayer = new TileLayer(GetNode<TileMap>("Trees"), treeNoise, new Dictionary<string, TileData>
+        {
+            { "tree_1", new TileData(new Vector2I(6, 4), 40) }
+        }, 60);
+
+        TileLayers.Add(grassLayer);
+        TileLayers.Add(treeLayer);
     }
 
     void GenerateSpawn()
