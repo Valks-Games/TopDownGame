@@ -16,8 +16,8 @@ public partial class World : Node
         Instance = this;
 
         SetupTileLayers();
-        GenerateChunk(0, 0);
-        //GenerateSpawn();
+        //GenerateChunk(0, 0);
+        GenerateSpawn();
     }
 
     public void GenerateChunk(int x, int y)
@@ -41,14 +41,14 @@ public partial class World : Node
 
         var grassLayer = new TileLayer(GetNode<TileMap>("Grass"), grassNoise, new Dictionary<string, TileData>
         {
-            { "grass_1", new TileData(new Vector2I(3, 1), 0.2f) },
-            { "grass_2", new TileData(new Vector2I(0, 8), 0.2f) }
-        }, 40);
+            { "grass_1", new TileData(new Vector2I(3, 1), 33) },
+            { "grass_2", new TileData(new Vector2I(0, 8), 33) }
+        }, 0);
 
         var treeLayer = new TileLayer(GetNode<TileMap>("Trees"), treeNoise, new Dictionary<string, TileData>
         {
-            { "tree_1", new TileData(new Vector2I(6, 4), 0.2f) }
-        }, 90);
+            { "tree_1", new TileData(new Vector2I(6, 4), 40) }
+        }, 60);
 
         TileLayers.Add(grassLayer);
         TileLayers.Add(treeLayer);

@@ -18,18 +18,30 @@ public class Chunk
                 {
                     // Obtain tile atlas coords
                     var tileAtlasCoords = Vector2I.Zero;
+                    var foundAtlasCoords = false;
+
+                    var globalX = (chunkX * World.ChunkSize) + x;
+                    var globalY = (chunkY * World.ChunkSize) + y;
 
                     foreach (var tile in layer.TileData)
                     {
-                        if (layer.FNL.GetNoise2D(x, y) < tile.Value.Weight)
+                        if (layer.FNL.GetNoise2D(globalX, globalY) < tile.Value.Weight)
                         {
                             tileAtlasCoords = tile.Value.Atlas;
+                            foundAtlasCoords = true;
                             break;
                         }
                     }
 
-                    GD.Print($"Set cell at ({x}, {y}) using atlas coords {tileAtlasCoords}");
-                    SetCell(tileMap, x, y, tileAtlasCoords);
+                    if (!foundAtlasCoords)
+                    {
+                        // This should not happen, if it does happen then something
+                        // is not working right?
+                        Logger.LogWarning("Did not find atlas coords for tile");
+                    }
+
+                    //Logger.Log($"Set cell at ({x}, {y}) using atlas coords {tileAtlasCoords}");
+                    SetCell(tileMap, globalX, globalY, tileAtlasCoords);
                 }
             }
         }
