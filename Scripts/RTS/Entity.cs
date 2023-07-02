@@ -14,6 +14,8 @@ public abstract partial class Entity : CharacterBody2D
 
     public override void _Ready()
     {
+        timerDontCheck = new(this);
+        timerDontCheck.Finished += () => dontCheck = false;
         label = new GLabel();
         label.Visible = ShowStates;
         label.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.CenterBottom);
@@ -39,12 +41,10 @@ public abstract partial class Entity : CharacterBody2D
 
     protected abstract State InitialState();
 
-    protected void DontCheck(double delay = 0.1)
+    protected void DontCheck(float delay = 0.1f)
     {
         dontCheck = true;
-        timerDontCheck = new(this, delay * 1000);
-        timerDontCheck.Finished += () => dontCheck = false;
-        timerDontCheck.Start();
+        timerDontCheck.Start(delay * 1000);
     }
 
     public void SwitchState(State newState)
