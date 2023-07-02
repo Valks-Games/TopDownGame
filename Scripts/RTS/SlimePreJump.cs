@@ -2,8 +2,6 @@
 
 public partial class Slime
 {
-    GTimer timerPreJump;
-
     State PreJump()
     {
         var state = new State("Pre Jump");
@@ -16,8 +14,7 @@ public partial class Slime
             tween.Create();
             tween.Animate("scale", new Vector2(1.1f, 0.9f), DurationPreJump / 1000d);
 
-            timerPreJump = new GTimer(this, DurationPreJump);
-            timerPreJump.Finished += () => 
+            GetTree().CreateTimer(DurationPreJump).Timeout += () =>
             {
                 if (player != null)
                 {
@@ -27,8 +24,8 @@ public partial class Slime
                 {
                     SwitchState(Slide());
                 }
+
             };
-            timerPreJump.Start();
         };
 
         state.Update = () =>

@@ -2,8 +2,6 @@
 
 public partial class Slime
 {
-    GTimer timerIdle;
-
     State Idle()
     {
         var state = new State("Idle");
@@ -11,9 +9,9 @@ public partial class Slime
         state.Enter = () =>
         {
             sprite.Play("idle");
-            timerIdle = new GTimer(this, DurationIdle);
-            timerIdle.Finished += () => SwitchState(PreJump());
-            timerIdle.Start();
+
+            GetTree().CreateTimer(DurationIdle).Timeout += () =>
+                SwitchState(PreJump());
         };
 
         return state;
