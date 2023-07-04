@@ -14,7 +14,7 @@ public partial class Walker
                 return;
             }
 
-            if(!isRunning) TriggerWalkToPoint((Vector2I)(player.Position / World.TileSize));
+            if(!isRunning) GetPathing();
             isRunning = true;
         };
 
