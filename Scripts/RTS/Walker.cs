@@ -6,20 +6,19 @@ public partial class Walker : Monster
     [Export] public bool Debug { get; set; } = false;
     [Export] public int MaxPathingDistanceInTiles { get; set; } = 20;
     [Export] public bool CanFly { get; set; } = false;
-    
-    [Export]
-    public float MaxSpeed { get; set; } = 1000;
-    [Export]
-    public float Acceleration { get; set; } = 10000;
-    
+
+    [Export] public float MaxSpeed { get; set; } = 1000;
+    [Export] public float Acceleration { get; set; } = 10000;
+
     public float ModifierMultiplier { get; set; } = 1;
     public float CalculatedMaxSpeed => MaxSpeed * ModifierMultiplier;
-    
+
 
     protected override State InitialState() => Idle();
 
     #region Debugging
     List<DebugLine> debuglines = new List<DebugLine>();
+
     private class DebugLine
     {
         public Vector2 start;
@@ -34,7 +33,7 @@ public partial class Walker : Monster
             this.width = width;
         }
     }
-    
+
     private void DebugLinesSetup(Vector2 movementPosition, Vector2I tilePoint)
     {
         var localCharLinePos = ToLocal(Position + tilePoint);
@@ -44,19 +43,22 @@ public partial class Walker : Monster
 
     public override void _Process(double delta)
     {
-        if(OS.IsDebugBuild() == true || Debug == true) QueueRedraw();
+        if (OS.IsDebugBuild() == true || Debug == true)
+            QueueRedraw();
         base._Process(delta);
     }
-    
-    public override void _Draw(){
 
-        if(OS.IsDebugBuild() == false || Debug == false) return;
-        
+    public override void _Draw()
+    {
+
+        if (OS.IsDebugBuild() == false || Debug == false)
+            return;
+
         foreach (var line in debuglines)
         {
             DrawLine(line.start, line.end, line.color, line.width);
         }
         debuglines.Clear();
     }
-#endregion Debugging
+    #endregion Debugging
 }

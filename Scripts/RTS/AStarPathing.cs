@@ -7,9 +7,11 @@ public partial class AStarPathing
     private Vector2 startPoint;
     private Vector2 endPoint;
     private bool init = false;
+
     public AStarPathing(bool hasDiagonalMovement = true)
     {
-        if (hasDiagonalMovement) AddDiagonalMovement();
+        if (hasDiagonalMovement)
+            AddDiagonalMovement();
     }
 
     private void ResetPaths()
@@ -20,7 +22,8 @@ public partial class AStarPathing
         endPoint = World.Instance.Trees.GetUsedRect().End;
     }
 
-    private void Init(){
+    private void Init()
+    {
         ResetPaths();
         AStarConnectWalkablePoints(AStarAddWalkablePoint());
         init = true;
@@ -28,15 +31,21 @@ public partial class AStarPathing
 
     public List<Vector2> TriggerWalkToPoint(Vector2I startCoord, Vector2I endCoord)
     {
-        if(!init) Init();
-        if (aStar.GetPointCount() <= 0) AStarConnectWalkablePoints(AStarAddWalkablePoint());
-        if (aStar.GetPointCount() > 0 && aStar.HasPoint(GetPointIndex(endCoord)) == false) return new List<Vector2>();
+        if (!init)
+            Init();
+
+        if (aStar.GetPointCount() <= 0)
+            AStarConnectWalkablePoints(AStarAddWalkablePoint());
+
+        if (aStar.GetPointCount() > 0 && aStar.HasPoint(GetPointIndex(endCoord)) == false)
+            return new List<Vector2>();
+
         //if (aStar.GetPointCount() > 0 && aStar.HasPoint(GetPointIndex(startCoord)) == false) DestuckCharacter(startCoord);
 
-        return GetAStarPath(startCoord,endCoord);
+        return GetAStarPath(startCoord, endCoord);
     }
 
-//Destuck logic
+    //Destuck logic
     // this should actually not happen
     // private void DestuckCharacter(Vector2I charPos)
     // {
@@ -57,8 +66,8 @@ public partial class AStarPathing
     //         }
     //     }
 
-// this couples the code to the Characterbody2d which is not good
-// decouple this if we need destuck
+    // this couples the code to the Characterbody2d which is not good
+    // decouple this if we need destuck
     //     owner.GlobalPosition = closestPoint * World.TileSize;
     // }
 
@@ -82,18 +91,18 @@ public partial class AStarPathing
         return points;
     }
 
-
-    private int GetPointIndex(Vector2I vect) => GetPointIndex(vect.X, vect.Y);
-    private int GetPointIndex(Vector2 vect) => GetPointIndex((int)vect.X, (int)vect.Y);
+    private int GetPointIndex(Vector2I vect) => 
+        GetPointIndex(vect.X, vect.Y);
+    private int GetPointIndex(Vector2 vect) => 
+        GetPointIndex((int)vect.X, (int)vect.Y);
     private int GetPointIndex(int x, int y) => x + y * (int)endPoint.X;
 
-
     private List<Vector2> MOVEABLEDIRECTIONS = new List<Vector2>(){
-            Vector2.Down,
-            Vector2.Up,
-            Vector2.Left,
-            Vector2.Right,
-        };
+        Vector2.Down,
+        Vector2.Up,
+        Vector2.Left,
+        Vector2.Right,
+    };
 
     private void AddDiagonalMovement()
     {
@@ -110,6 +119,7 @@ public partial class AStarPathing
             foreach (Vector2 direction in MOVEABLEDIRECTIONS)
             {
                 Vector2 connectingPoint = v + direction;
+
                 if (points.Contains(connectingPoint))
                 {
                     var index = GetPointIndex(v);

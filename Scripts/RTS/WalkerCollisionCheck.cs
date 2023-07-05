@@ -1,24 +1,24 @@
 namespace RTS;
 
-public partial class Walker {
-    
-#region CollisionDetection
-
-
+public partial class Walker
+{
+    #region CollisionDetection
     /// <summary>
     /// Calculates all the tiles the character will touch on the tilemap coordinate system using the point it's moving towards
     /// </summary>
     /// <returns>A list of all unique tile coordinates which the character touches</returns>
-    private List<Vector2I> CalculateTileVectors() {
+    private List<Vector2I> CalculateTileVectors()
+    {
         // a list of unique tile vectors which either the corner or center of the character will touch on the tilemap coordinate system
         var movementPosition = player.Position;
         var tileVectors = new List<Vector2I>();
         var direction = Position - movementPosition;
         var validationPoints = GetOuterCornersAndCenter(direction);
-        
+
         foreach (var tilePoint in validationPoints)
         {
-            if (Debug) DebugLinesSetup(movementPosition, tilePoint);
+            if (Debug)
+                DebugLinesSetup(movementPosition, tilePoint);
             var charLinePositionOnTilemap = FloorToVector2I((Position + tilePoint) / World.TileSize);
             var movementPositionOnTilemap = FloorToVector2I((movementPosition + tilePoint)/ World.TileSize);
             var lineDirection = movementPositionOnTilemap - charLinePositionOnTilemap;
@@ -43,7 +43,8 @@ public partial class Walker {
                     tileVectors.Add(nextPosition);
             }
         }
-        if(Debug) QueueRedraw();
+        if (Debug)
+            QueueRedraw();
         return tileVectors;
     }
 
@@ -61,16 +62,20 @@ public partial class Walker {
     /// </summary>
     /// <param name="direction"></param>
     /// <returns></returns>
-    private List<Vector2I> GetOuterCornersAndCenter(Vector2 direction){
+    private List<Vector2I> GetOuterCornersAndCenter(Vector2 direction)
+    {
         var corner = World.TileSize / 2 - 2;
         var result = new List<Vector2I>();
         result.Add(Vector2I.Zero);
-        if((direction.X >= 0 && direction.Y >= 0) || (direction.X < 0 && direction.Y < 0)) {
+        if ((direction.X >= 0 && direction.Y >= 0) || (direction.X < 0 && direction.Y < 0))
+        {
             result.Add(new Vector2I(-corner, corner));
-            result.Add(new Vector2I( corner,-corner));
-        } else {
-            result.Add(new Vector2I(-corner,-corner));
-            result.Add(new Vector2I( corner, corner));
+            result.Add(new Vector2I(corner, -corner));
+        }
+        else
+        {
+            result.Add(new Vector2I(-corner, -corner));
+            result.Add(new Vector2I(corner, corner));
         }
         return result;
     }
@@ -80,8 +85,9 @@ public partial class Walker {
     /// </summary>
     /// <param name="movementPosition"></param>
     /// <returns></returns>
-    private bool ValidateTileVectorHasCollision(Vector2I tileVector) {
-        
+    private bool ValidateTileVectorHasCollision(Vector2I tileVector)
+    {
+
         var tile = World.Instance.Trees.GetCellTileData(0, tileVector);
         return tile == null ? false : tile.GetCollisionPolygonsCount(0) > 0;
     }
@@ -97,17 +103,16 @@ public partial class Walker {
         foreach (var tileVector in tilesTouched)
         {
             hasCollision = ValidateTileVectorHasCollision(tileVector);
-            if(this.Debug) 
-                if(hasCollision) Logger.LogWarning($"TileVector: {tileVector.X}, {tileVector.Y}, hascollision");
-                else Logger.Log($"TileVector: {tileVector.X}, {tileVector.Y}");
+            if (this.Debug)
+                if (hasCollision)
+                    Logger.LogWarning($"TileVector: {tileVector.X}, {tileVector.Y}, hascollision");
+                else
+                    Logger.Log($"TileVector: {tileVector.X}, {tileVector.Y}");
             if (hasCollision)
                 break;
         }
 
         return hasCollision;
     }
-
-    
-#endregion CollisionDetection
-
+    #endregion CollisionDetection
 }
