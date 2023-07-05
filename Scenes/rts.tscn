@@ -6,10 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://3q0ylr65w8rq" path="res://Scenes/Prefabs/slime.tscn" id="4_guf0v"]
 [ext_resource type="Script" path="res://Scripts/UI/UICardManager.cs" id="5_m8s8e"]
 
-[node name="World" type="Node2D" node_paths=PackedStringArray("Grass", "Trees")]
+[node name="World" type="Node2D"]
 script = ExtResource("1_6qhqq")
-Grass = NodePath("Grass")
-Trees = NodePath("Trees")
+Grass = Object(TileMap,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(0, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"tile_set":ExtResource("1_ybika"),"cell_quadrant_size":16,"collision_animatable":false,"collision_visibility_mode":0,"navigation_visibility_mode":0,"format":2,"layer_0/name":"","layer_0/enabled":true,"layer_0/modulate":Color(1, 1, 1, 1),"layer_0/y_sort_enabled":false,"layer_0/y_sort_origin":0,"layer_0/z_index":0,"layer_0/tile_data":PackedInt32Array(),"script":null)
+
+Trees = Object(TileMap,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"position":Vector2(0, 0),"rotation":0.0,"scale":Vector2(1, 1),"skew":0.0,"tile_set":ExtResource("1_ybika"),"cell_quadrant_size":16,"collision_animatable":false,"collision_visibility_mode":0,"navigation_visibility_mode":0,"format":2,"layer_0/name":"","layer_0/enabled":true,"layer_0/modulate":Color(1, 1, 1, 1),"layer_0/y_sort_enabled":false,"layer_0/y_sort_origin":0,"layer_0/z_index":0,"layer_0/tile_data":PackedInt32Array(131072, 393216, 4, 262146, 393216, 4, 196611, 393216, 4, 1, 393216, 4, -65534, 393216, 4, -131070, 393216, 4, -131069, 393216, 4, -131068, 393216, 4, -131067, 393216, 4, -131066, 393216, 4, 65541, 393216, 4, 65540, 393216, 4, 65539, 393216, 4, 65538, 393216, 4, 2, 393216, 4),"script":null)
+
 
 [node name="Grass" type="TileMap" parent="."]
 tile_set = ExtResource("1_ybika")
