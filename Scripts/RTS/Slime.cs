@@ -13,26 +13,30 @@ public partial class Slime : Monster
     [Export] public int MaxPathingDistanceInTiles { get; set; } = 20;
     // TODO: Should be moved to Monster.cs?
     [Export] public bool CanFly { get; set; } = false;
-    
 
     protected override State InitialState() => Idle();
 
     #region Debugging
     List<DebugLine> lines = new List<DebugLine>();
-    
-    private void DebugLinesSetup(Vector2 movementPosition, Vector2I tilePoint)
+
+    public override void _Draw()
+    {
+        foreach (var line in lines)
+            DrawLine(line.Start, line.End, line.Color, line.Width);
+
+        lines.Clear();
+    }
+
+    void DebugLinesSetup(Vector2 movementPosition, Vector2I tilePoint)
     {
         var localCharLinePos = ToLocal(Position + tilePoint);
         var localMovementPos = ToLocal(movementPosition + tilePoint);
-        lines.Add(new DebugLine(localCharLinePos, localMovementPos, Colors.Orange, 2f));
+
+        lines.Add(new DebugLine(
+            start: localCharLinePos, 
+            end: localMovementPos, 
+            color: Colors.Orange, 
+            width: 2));
     }
-    
-    public override void _Draw(){
-        foreach (var line in lines)
-        {
-            DrawLine(line.Start, line.End, line.Color, line.Width);
-        }
-        lines.Clear();
-    }
-#endregion Debugging
+    #endregion Debugging
 }
