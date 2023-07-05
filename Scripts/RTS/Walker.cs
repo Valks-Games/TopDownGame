@@ -31,24 +31,24 @@ public partial class Walker : Monster
             return;
 
         foreach (var line in debuglines)
-            DrawLine(line.start, line.end, line.color, line.width);
+            DrawLine(line.Start, line.End, line.Color, line.Width);
 
         debuglines.Clear();
     }
 
     class DebugLine
     {
-        public Vector2 start;
-        public Vector2 end;
-        public Color color;
-        public float width;
+        public Vector2 Start { get; set; }
+        public Vector2 End { get; set; }
+        public Color Color { get; set; }
+        public float Width { get; set; }
 
         public DebugLine(Vector2 start, Vector2 end, Color color, float width)
         {
-            this.start = start;
-            this.end = end;
-            this.color = color;
-            this.width = width;
+            this.Start = start;
+            this.End = end;
+            this.Color = color;
+            this.Width = width;
         }
     }
 
