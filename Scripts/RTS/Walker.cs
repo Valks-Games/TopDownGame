@@ -19,7 +19,7 @@ public partial class Walker : Monster
 
     public override void _Process(double delta)
     {
-        if (OS.IsDebugBuild() == true || Debug == true)
+        if (OS.IsDebugBuild() || Debug)
             QueueRedraw();
 
         base._Process(delta);
@@ -27,7 +27,7 @@ public partial class Walker : Monster
 
     public override void _Draw()
     {
-        if (OS.IsDebugBuild() == false || Debug == false)
+        if (!OS.IsDebugBuild() || !Debug)
             return;
 
         foreach (var line in debuglines)

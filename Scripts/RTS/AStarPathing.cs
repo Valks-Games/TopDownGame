@@ -27,7 +27,7 @@ public partial class AStarPathing
             !aStar.HasPoint(GetPointIndex(endCoord)))
             return new List<Vector2>();
 
-        //if (aStar.GetPointCount() > 0 && aStar.HasPoint(GetPointIndex(startCoord)) == false) DestuckCharacter(startCoord);
+        //if (aStar.GetPointCount() > 0 && !aStar.HasPoint(GetPointIndex(startCoord))) DestuckCharacter(startCoord);
 
         return GetAStarPath(startCoord, endCoord);
     }
