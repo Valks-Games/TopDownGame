@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bp1ivcjg6y2cy"]
 
-[ext_resource type="Script" path="res://Scripts/RTS/Walker.cs" id="1_e14od"]
+[ext_resource type="Script" path="res://Scripts/RTS/Walker/Walker.cs" id="1_e14od"]
 [ext_resource type="Texture2D" uid="uid://ba6p5egqwa5pb" path="res://Sprites/walkman.png" id="2_0fgp7"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_gii3p"]
