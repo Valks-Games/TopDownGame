@@ -2,11 +2,11 @@ namespace RTS;
 
 public partial class Walker
 {
-    private int remainingSpeed = 0;
+    int remainingSpeed = 0;
     // calculation Lists
-    private List<Vector2I> currentSpeedCoordinates;
-    private List<Vector2I> nextSpeedCoordinates;
-    private List<Vector2I> collectedCoordinates;
+    List<Vector2I> currentSpeedCoordinates;
+    List<Vector2I> nextSpeedCoordinates;
+    List<Vector2I> collectedCoordinates;
     // Path to each point in the calculated circle, with the last point being the path to the player
     public Dictionary<Vector2I, PathPoint> pathPoints { get; private set; }
 
@@ -48,7 +48,7 @@ public partial class Walker
     /// <summary>
     /// Reset all lists, dictionaries and values so we can start a new calculation
     /// </summary>
-    private void ResetLists()
+    void ResetLists()
     {
         nextSpeedCoordinates = new List<Vector2I>();
         collectedCoordinates = new List<Vector2I>();
@@ -66,7 +66,7 @@ public partial class Walker
     /// <param name="coord"></param>
     /// <param name="previousPoint"></param>
     /// <param name="dist"></param>
-    private void AddVectorToLists(Vector2I coord, PathPoint previousPoint = null, int dist = 0)
+    void AddVectorToLists(Vector2I coord, PathPoint previousPoint = null, int dist = 0)
     {
         collectedCoordinates.Add(coord);
         PathPoint movePoint = new PathPoint()
@@ -83,7 +83,7 @@ public partial class Walker
     /// If the next coordinate is already in the list, it will not be added again
     /// If the Players position has been found stop the loop, else keep looping until we run out of speed
     /// </summary>
-    private void GetCoordinates()
+    void GetCoordinates()
     {
         while (remainingSpeed > 0)
         {
@@ -117,7 +117,7 @@ public partial class Walker
     /// <param name="previousCoord">The point we came from</param>
     /// <param name="distance">The distance we moved to get to this point</param>
     /// <returns>If we find the players position, we don't need to continue and we return "true"</returns>
-    private bool ValidateNextCoordinate(Vector2I coord, Vector2I previousCoord, int distance)
+    bool ValidateNextCoordinate(Vector2I coord, Vector2I previousCoord, int distance)
     {
         var colTile = World.Instance.Trees.GetCellTileData(0, coord);
 

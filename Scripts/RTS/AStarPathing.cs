@@ -3,10 +3,11 @@ namespace RTS;
 public partial class AStarPathing
 {
     public bool Debug { get; set; } = false;
-    private AStar2D aStar = new AStar2D();
-    private Vector2 startPoint;
-    private Vector2 endPoint;
-    private bool init = false;
+    
+    AStar2D aStar = new AStar2D();
+    Vector2 startPoint;
+    Vector2 endPoint;
+    bool init = false;
 
     public AStarPathing(bool hasDiagonalMovement = true)
     {
@@ -14,7 +15,7 @@ public partial class AStarPathing
             AddDiagonalMovement();
     }
 
-    private void ResetPaths()
+    void ResetPaths()
     {
         // this is the startpoint and endpoint of the area that needs to have pathfinding
         // if we set this to the entire world, we should only have ONE instance of this class and just reuse it
@@ -22,7 +23,7 @@ public partial class AStarPathing
         endPoint = World.Instance.Trees.GetUsedRect().End;
     }
 
-    private void Init()
+    void Init()
     {
         ResetPaths();
         AStarConnectWalkablePoints(AStarAddWalkablePoint());
@@ -71,7 +72,7 @@ public partial class AStarPathing
     //     owner.GlobalPosition = closestPoint * World.TileSize;
     // }
 
-    private List<Vector2> AStarAddWalkablePoint()
+    List<Vector2> AStarAddWalkablePoint()
     {
         List<Vector2> points = new List<Vector2>();
         for (int y = 0; y < (int)endPoint.Y; y++)
@@ -91,20 +92,18 @@ public partial class AStarPathing
         return points;
     }
 
-    private int GetPointIndex(Vector2I vect) => 
-        GetPointIndex(vect.X, vect.Y);
-    private int GetPointIndex(Vector2 vect) => 
-        GetPointIndex((int)vect.X, (int)vect.Y);
-    private int GetPointIndex(int x, int y) => x + y * (int)endPoint.X;
+    int GetPointIndex(Vector2I vect) => GetPointIndex(vect.X, vect.Y);
+    int GetPointIndex(Vector2 vect) => GetPointIndex((int)vect.X, (int)vect.Y);
+    int GetPointIndex(int x, int y) => x + y * (int)endPoint.X;
 
-    private List<Vector2> MOVEABLEDIRECTIONS = new List<Vector2>(){
+    List<Vector2> MOVEABLEDIRECTIONS = new List<Vector2>(){
         Vector2.Down,
         Vector2.Up,
         Vector2.Left,
         Vector2.Right,
     };
 
-    private void AddDiagonalMovement()
+    void AddDiagonalMovement()
     {
         MOVEABLEDIRECTIONS.Add(new Vector2(-1, -1));
         MOVEABLEDIRECTIONS.Add(new Vector2(-1, 1));
@@ -112,7 +111,7 @@ public partial class AStarPathing
         MOVEABLEDIRECTIONS.Add(new Vector2(1, 1));
     }
 
-    private void AStarConnectWalkablePoints(List<Vector2> points)
+    void AStarConnectWalkablePoints(List<Vector2> points)
     {
         foreach (Vector2 v in points)
         {
@@ -130,7 +129,7 @@ public partial class AStarPathing
         }
     }
 
-    private List<Vector2> GetAStarPath(Vector2 startCoord, Vector2 endCoord)
+    List<Vector2> GetAStarPath(Vector2 startCoord, Vector2 endCoord)
     {
         int startID = GetPointIndex(startCoord);
         int endID = GetPointIndex(endCoord);

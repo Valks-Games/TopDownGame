@@ -7,7 +7,7 @@ public partial class Walker
     /// Calculates all the tiles the character will touch on the tilemap coordinate system using the point it's moving towards
     /// </summary>
     /// <returns>A list of all unique tile coordinates which the character touches</returns>
-    private List<Vector2I> CalculateTileVectors()
+    List<Vector2I> CalculateTileVectors()
     {
         // a list of unique tile vectors which either the corner or center of the character will touch on the tilemap coordinate system
         var movementPosition = player.Position;
@@ -52,7 +52,7 @@ public partial class Walker
     /// <summary>
     /// Rounds the Vector down instead of rounding it towards zero
     /// </summary>
-    private Vector2I FloorToVector2I(Vector2 movementPos) =>
+    Vector2I FloorToVector2I(Vector2 movementPos) =>
         new Vector2I((int)Math.Floor(movementPos.X), (int)Math.Floor(movementPos.Y));
 
     /// <summary>
@@ -62,7 +62,7 @@ public partial class Walker
     /// </summary>
     /// <param name="direction"></param>
     /// <returns></returns>
-    private List<Vector2I> GetOuterCornersAndCenter(Vector2 direction)
+    List<Vector2I> GetOuterCornersAndCenter(Vector2 direction)
     {
         var corner = World.TileSize / 2 - 2;
         var result = new List<Vector2I>();
@@ -85,7 +85,7 @@ public partial class Walker
     /// </summary>
     /// <param name="movementPosition"></param>
     /// <returns></returns>
-    private bool ValidateTileVectorHasCollision(Vector2I tileVector)
+    bool ValidateTileVectorHasCollision(Vector2I tileVector)
     {
 
         var tile = World.Instance.Trees.GetCellTileData(0, tileVector);
@@ -97,7 +97,7 @@ public partial class Walker
     /// </summary>
     /// <param name="tilesTouched">Each tile the character will touch</param>
     /// <returns></returns>
-    private bool ValidateCollisionForList(List<Vector2I> tilesTouched)
+    bool ValidateCollisionForList(List<Vector2I> tilesTouched)
     {
         bool hasCollision = false;
         foreach (var tileVector in tilesTouched)

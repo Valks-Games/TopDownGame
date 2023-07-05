@@ -15,7 +15,7 @@ public partial class Walker
         FollowPath();
     }
 
-    private void GetPathing()
+    void GetPathing()
     {
         path = pathingAlgorithm.TriggerWalkToPoint(GetGlobalPositionAsCoord(), (Vector2I)(player.Position / World.TileSize));
         currentPathIndex = 0;
@@ -63,7 +63,7 @@ public partial class Walker
         Velocity = new Vector2((float)x, (float)y);
     }
 
-    private void Decelerate() => AccelerateToVelocity(Vector2.Zero);
-    private Vector2I GetGlobalPositionAsCoord() => ((Vector2I)(GlobalPosition / World.TileSize));
+    void Decelerate() => AccelerateToVelocity(Vector2.Zero);
+    Vector2I GetGlobalPositionAsCoord() => ((Vector2I)(GlobalPosition / World.TileSize));
 
 }

@@ -19,7 +19,7 @@ public partial class Walker : Monster
     #region Debugging
     List<DebugLine> debuglines = new List<DebugLine>();
 
-    private class DebugLine
+    class DebugLine
     {
         public Vector2 start;
         public Vector2 end;
@@ -34,7 +34,7 @@ public partial class Walker : Monster
         }
     }
 
-    private void DebugLinesSetup(Vector2 movementPosition, Vector2I tilePoint)
+    void DebugLinesSetup(Vector2 movementPosition, Vector2I tilePoint)
     {
         var localCharLinePos = ToLocal(Position + tilePoint);
         var localMovementPos = ToLocal(movementPosition + tilePoint);
