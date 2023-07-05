@@ -2,11 +2,11 @@ namespace RTS;
 
 public partial class Walker
 {
-    int currentPathIndex = 0;
+    AStarPathing pathingAlgorithm = new(true);
+    List<Vector2> path = new List<Vector2>();
     bool hasRun = false;
     bool isRunning = false;
-    List<Vector2> path = new List<Vector2>();
-    AStarPathing pathingAlgorithm = new AStarPathing( true);
+    int currentPathIndex = 0;
 
     public override void _PhysicsProcess(double delta)
     {

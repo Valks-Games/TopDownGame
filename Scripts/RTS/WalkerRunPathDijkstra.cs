@@ -2,15 +2,15 @@ namespace RTS;
 
 public partial class Walker
 {
-    int remainingSpeed = 0;
+    // Path to each point in the calculated circle, with the last point being the path to the player
+    public Dictionary<Vector2I, PathPoint> PathPoints { get; private set; }
 
-    // calculation Lists
+    // Calculation lists
     List<Vector2I> currentSpeedCoordinates;
     List<Vector2I> nextSpeedCoordinates;
     List<Vector2I> collectedCoordinates;
 
-    // Path to each point in the calculated circle, with the last point being the path to the player
-    public Dictionary<Vector2I, PathPoint> pathPoints { get; private set; }
+    int remainingSpeed = 0;
 
     /// <summary>
     /// First use CalculateMovableCoordinates() to calculate the path to the player
@@ -20,8 +20,8 @@ public partial class Walker
     /// <returns></returns>
     public PathPoint GetPathPoint(Vector2I point)
     {
-        if (pathPoints.ContainsKey(point))
-            return pathPoints[point];
+        if (PathPoints.ContainsKey(point))
+            return PathPoints[point];
 
         return null;
     }
@@ -50,7 +50,7 @@ public partial class Walker
     {
         nextSpeedCoordinates = new List<Vector2I>();
         collectedCoordinates = new List<Vector2I>();
-        pathPoints = new Dictionary<Vector2I, PathPoint>();
+        PathPoints = new Dictionary<Vector2I, PathPoint>();
 
         AddVectorToLists((Vector2I)(Position / World.TileSize)); // add current position to the list
 
@@ -75,7 +75,7 @@ public partial class Walker
             Distance = dist
         };
 
-        pathPoints.Add(movePoint.Point, movePoint);
+        PathPoints.Add(movePoint.Point, movePoint);
     }
 
     /// <summary>
@@ -102,6 +102,7 @@ public partial class Walker
                 if (ValidateNextCoordinate(coord - new Vector2I( 1,-1), coord, MaxPathingDistanceInTiles - remainingSpeed + 1)) return;
                 if (ValidateNextCoordinate(coord - new Vector2I(-1,-1), coord, MaxPathingDistanceInTiles - remainingSpeed + 1)) return;
             }
+
             remainingSpeed--;
             currentSpeedCoordinates = new List<Vector2I>(nextSpeedCoordinates);
             nextSpeedCoordinates.Clear();
@@ -125,8 +126,9 @@ public partial class Walker
         if (!collectedCoordinates.Contains(coord))
         {
             nextSpeedCoordinates.Add(coord);
-            PathPoint previousPoint = pathPoints[previousCoord];
+            PathPoint previousPoint = PathPoints[previousCoord];
             AddVectorToLists(coord, previousPoint, distance);
+
             return coord == (Vector2I)(player.Position / World.TileSize);
         }
 
