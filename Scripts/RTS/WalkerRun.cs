@@ -2,7 +2,6 @@ namespace RTS;
 
 public partial class Walker
 {
-
     State Run()
     {
         var state = new State("Run");
@@ -23,5 +22,4 @@ public partial class Walker
 
         return state;
     }
-
 }

@@ -4,7 +4,7 @@ public partial class AStarPathing
 {
     public bool Debug { get; set; } = false;
     
-    AStar2D aStar = new AStar2D();
+    AStar2D aStar = new();
     Vector2 startPoint;
     Vector2 endPoint;
     bool init = false;
@@ -13,21 +13,6 @@ public partial class AStarPathing
     {
         if (hasDiagonalMovement)
             AddDiagonalMovement();
-    }
-
-    void ResetPaths()
-    {
-        // this is the startpoint and endpoint of the area that needs to have pathfinding
-        // if we set this to the entire world, we should only have ONE instance of this class and just reuse it
-        startPoint = World.Instance.Trees.GetUsedRect().Position;
-        endPoint = World.Instance.Trees.GetUsedRect().End;
-    }
-
-    void Init()
-    {
-        ResetPaths();
-        AStarConnectWalkablePoints(AStarAddWalkablePoint());
-        init = true;
     }
 
     public List<Vector2> TriggerWalkToPoint(Vector2I startCoord, Vector2I endCoord)
@@ -73,42 +58,12 @@ public partial class AStarPathing
     //     owner.GlobalPosition = closestPoint * World.TileSize;
     // }
 
-    List<Vector2> AStarAddWalkablePoint()
+    void Init()
     {
-        var points = new List<Vector2>();
-
-        for (int y = 0; y < (int)endPoint.Y; y++)
-        {
-            for (int x = 0; x < (int)endPoint.X; x++)
-            {
-                var wcol = World.Instance.Trees.GetCellTileData(
-                    layer: 0, 
-                    coords: new Vector2I(x, y));
-                
-                if (wcol == null)
-                {
-                    var result = new Vector2(x, y);
-                    points.Add(result);
-
-                    int pointIndex = GetPointIndex(x, y);
-                    aStar.AddPoint(pointIndex, result);
-                }
-            }
-        }
-
-        return points;
+        ResetPaths();
+        AStarConnectWalkablePoints(AStarAddWalkablePoint());
+        init = true;
     }
-
-    int GetPointIndex(Vector2I vect) => GetPointIndex(vect.X, vect.Y);
-    int GetPointIndex(Vector2 vect) => GetPointIndex((int)vect.X, (int)vect.Y);
-    int GetPointIndex(int x, int y) => x + y * (int)endPoint.X;
-
-    List<Vector2> MOVEABLEDIRECTIONS = new List<Vector2>(){
-        Vector2.Down,
-        Vector2.Up,
-        Vector2.Left,
-        Vector2.Right,
-    };
 
     void AddDiagonalMovement()
     {
@@ -140,6 +95,44 @@ public partial class AStarPathing
         }
     }
 
+    void ResetPaths()
+    {
+        // this is the startpoint and endpoint of the area that needs to have pathfinding
+        // if we set this to the entire world, we should only have ONE instance of this class and just reuse it
+        startPoint = World.Instance.Trees.GetUsedRect().Position;
+        endPoint = World.Instance.Trees.GetUsedRect().End;
+    }
+
+    int GetPointIndex(Vector2I vect) => GetPointIndex(vect.X, vect.Y);
+    int GetPointIndex(Vector2 vect) => GetPointIndex((int)vect.X, (int)vect.Y);
+    int GetPointIndex(int x, int y) => x + y * (int)endPoint.X;
+
+    List<Vector2> AStarAddWalkablePoint()
+    {
+        var points = new List<Vector2>();
+
+        for (int y = 0; y < (int)endPoint.Y; y++)
+        {
+            for (int x = 0; x < (int)endPoint.X; x++)
+            {
+                var wcol = World.Instance.Trees.GetCellTileData(
+                    layer: 0,
+                    coords: new Vector2I(x, y));
+
+                if (wcol == null)
+                {
+                    var result = new Vector2(x, y);
+                    points.Add(result);
+
+                    int pointIndex = GetPointIndex(x, y);
+                    aStar.AddPoint(pointIndex, result);
+                }
+            }
+        }
+
+        return points;
+    }
+
     List<Vector2> GetAStarPath(Vector2 startCoord, Vector2 endCoord)
     {
         int startID = GetPointIndex(startCoord);
@@ -147,4 +140,11 @@ public partial class AStarPathing
 
         return new List<Vector2>(aStar.GetPointPath(startID, endID));
     }
+
+    List<Vector2> MOVEABLEDIRECTIONS = new List<Vector2>(){
+        Vector2.Down,
+        Vector2.Up,
+        Vector2.Left,
+        Vector2.Right,
+    };
 }

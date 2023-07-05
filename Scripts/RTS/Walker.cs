@@ -18,6 +18,25 @@ public partial class Walker : Monster
     #region Debugging
     List<DebugLine> debuglines = new List<DebugLine>();
 
+    public override void _Process(double delta)
+    {
+        if (OS.IsDebugBuild() == true || Debug == true)
+            QueueRedraw();
+
+        base._Process(delta);
+    }
+
+    public override void _Draw()
+    {
+        if (OS.IsDebugBuild() == false || Debug == false)
+            return;
+
+        foreach (var line in debuglines)
+            DrawLine(line.start, line.end, line.color, line.width);
+
+        debuglines.Clear();
+    }
+
     class DebugLine
     {
         public Vector2 start;
@@ -40,29 +59,10 @@ public partial class Walker : Monster
         var localMovementPos = ToLocal(movementPosition + tilePoint);
 
         debuglines.Add(new DebugLine(
-            localCharLinePos, 
-            localMovementPos, 
-            Colors.Orange, 
+            localCharLinePos,
+            localMovementPos,
+            Colors.Orange,
             2f));
-    }
-
-    public override void _Process(double delta)
-    {
-        if (OS.IsDebugBuild() == true || Debug == true)
-            QueueRedraw();
-
-        base._Process(delta);
-    }
-
-    public override void _Draw()
-    {
-        if (OS.IsDebugBuild() == false || Debug == false)
-            return;
-
-        foreach (var line in debuglines)
-            DrawLine(line.start, line.end, line.color, line.width);
-
-        debuglines.Clear();
     }
     #endregion Debugging
 }

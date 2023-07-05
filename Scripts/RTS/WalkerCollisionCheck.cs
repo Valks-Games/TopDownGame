@@ -65,7 +65,6 @@ public partial class Walker
         return tileVectors;
     }
 
-
     /// <summary>
     /// Rounds the Vector down instead of rounding it towards zero
     /// </summary>
