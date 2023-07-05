@@ -6,7 +6,7 @@ namespace RTS;
 /// </summary>
 public class PathPoint
 {
-    public Vector2I point { get; set; }
-    public PathPoint previousPoint { get; set; }
-    public int distance { get; set; }
+    public Vector2I Point { get; set; }
+    public PathPoint PreviousPoint { get; set; }
+    public int Distance { get; set; }
 }

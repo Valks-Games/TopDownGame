@@ -70,12 +70,12 @@ public partial class Walker
 
         PathPoint movePoint = new PathPoint()
         {
-            point = coord,
-            previousPoint = previousPoint,
-            distance = dist
+            Point = coord,
+            PreviousPoint = previousPoint,
+            Distance = dist
         };
 
-        pathPoints.Add(movePoint.point, movePoint);
+        pathPoints.Add(movePoint.Point, movePoint);
     }
 
     /// <summary>

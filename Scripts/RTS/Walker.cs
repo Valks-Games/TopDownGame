@@ -6,7 +6,6 @@ public partial class Walker : Monster
     [Export] public bool Debug { get; set; } = false;
     [Export] public int MaxPathingDistanceInTiles { get; set; } = 20;
     [Export] public bool CanFly { get; set; } = false;
-
     [Export] public float MaxSpeed { get; set; } = 1000;
     [Export] public float Acceleration { get; set; } = 10000;
 
