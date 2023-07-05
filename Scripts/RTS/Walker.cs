@@ -58,10 +58,10 @@ public partial class Walker : Monster
         var localMovementPos = ToLocal(movementPosition + tilePoint);
 
         debuglines.Add(new DebugLine(
-            localCharLinePos,
-            localMovementPos,
-            Colors.Orange,
-            2f));
+            start: localCharLinePos,
+            end: localMovementPos,
+            color: Colors.Orange,
+            width: 2));
     }
     #endregion Debugging
 }
