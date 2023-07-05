@@ -1,3 +1,5 @@
+using Template;
+
 namespace RTS;
 
 public partial class Slime : Monster
@@ -16,33 +18,19 @@ public partial class Slime : Monster
     protected override State InitialState() => Idle();
 
     #region Debugging
-    List<debugLine> lines = new List<debugLine>();
-    private class debugLine
-    {
-        public Vector2 start;
-        public Vector2 end;
-        public Color color;
-        public float width;
-        public debugLine(Vector2 start, Vector2 end, Color color, float width)
-        {
-            this.start = start;
-            this.end = end;
-            this.color = color;
-            this.width = width;
-        }
-    }
+    List<DebugLine> lines = new List<DebugLine>();
     
     private void DebugLinesSetup(Vector2 movementPosition, Vector2I tilePoint)
     {
         var localCharLinePos = ToLocal(Position + tilePoint);
         var localMovementPos = ToLocal(movementPosition + tilePoint);
-        lines.Add(new debugLine(localCharLinePos, localMovementPos, Colors.Orange, 2f));
+        lines.Add(new DebugLine(localCharLinePos, localMovementPos, Colors.Orange, 2f));
     }
     
     public override void _Draw(){
         foreach (var line in lines)
         {
-            DrawLine(line.start, line.end, line.color, line.width);
+            DrawLine(line.Start, line.End, line.Color, line.Width);
         }
         lines.Clear();
     }
