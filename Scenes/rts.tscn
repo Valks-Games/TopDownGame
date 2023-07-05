@@ -23,6 +23,9 @@ layer_0/tile_data = PackedInt32Array(131072, 393216, 4, 262146, 393216, 4, 19661
 [node name="Player" parent="." instance=ExtResource("3_8ce75")]
 position = Vector2(40, 56)
 
+[node name="Walkman" parent="." instance=ExtResource("5_iarlv")]
+position = Vector2(56, 8)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
@@ -44,6 +47,3 @@ size_flags_vertical = 4
 columns = 4
 script = ExtResource("5_m8s8e")
 TotalCards = 1
-
-[node name="Walkman" parent="." instance=ExtResource("5_iarlv")]
-position = Vector2(56, 8)
