@@ -2,7 +2,6 @@
 
 public partial class Slime
 {
-    
     State Jump()
     {
         var state = new State("Jump");
@@ -12,21 +11,15 @@ public partial class Slime
             sprite.Play("idle");
 
             var jumpPos = CalculateJumpPosition();
-            var touchTiles = CalculateTileVectors();
-            var hasCollision =  ValidateCollisionForList(touchTiles);
-            if(hasCollision) {
-                CalculateMovableCoordinates();
-                var points = pathPoints;
-                SwitchState(Idle());
-                return;
-            }
             MoveCharacter(jumpPos);
             ScaleUpAndDown();
         };
 
         return state;
     }
-    private Vector2 CalculateJumpPosition(){
+
+    Vector2 CalculateJumpPosition()
+    {
         // Jump towards player
         var diff = player.Position - Position;
         var dir = diff.Normalized();
@@ -37,8 +30,8 @@ public partial class Slime
         return dir * dist;
     }
 
-#region Animation
-    private void MoveCharacter(Vector2 jumpPos)
+    #region Animation
+    void MoveCharacter(Vector2 jumpPos)
     {
         var tweenPos = new GTween(this);
         tweenPos.Create();
@@ -48,7 +41,7 @@ public partial class Slime
         tweenPos.Callback(() => SwitchState(Idle()));
     }
 
-    private void ScaleUpAndDown()
+    void ScaleUpAndDown()
     {
         var tweenScale = new GTween(sprite);
         tweenScale.Create();
@@ -59,5 +52,5 @@ public partial class Slime
             .SetTrans(Tween.TransitionType.Sine)
             .SetEase(Tween.EaseType.Out);
     }
-#endregion Animation
+    #endregion Animation
 }

@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://3q0ylr65w8rq"]
 
-[ext_resource type="Script" path="res://Scripts/RTS/Slime.cs" id="1_vil7y"]
+[ext_resource type="Script" path="res://Scripts/RTS/Slime/Slime.cs" id="1_vil7y"]
 [ext_resource type="Texture2D" uid="uid://cj1t1dru1yhpq" path="res://Sprites/frog.png" id="2_8iuon"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vorkp"]

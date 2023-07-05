@@ -1,3 +1,5 @@
+using Template;
+
 namespace RTS;
 
 public partial class Slime : Monster
@@ -11,40 +13,30 @@ public partial class Slime : Monster
     [Export] public int MaxPathingDistanceInTiles { get; set; } = 20;
     // TODO: Should be moved to Monster.cs?
     [Export] public bool CanFly { get; set; } = false;
-    
 
     protected override State InitialState() => Idle();
 
     #region Debugging
-    List<debugLine> lines = new List<debugLine>();
-    private class debugLine
+    List<DebugLine> lines = new List<DebugLine>();
+
+    public override void _Draw()
     {
-        public Vector2 start;
-        public Vector2 end;
-        public Color color;
-        public float width;
-        public debugLine(Vector2 start, Vector2 end, Color color, float width)
-        {
-            this.start = start;
-            this.end = end;
-            this.color = color;
-            this.width = width;
-        }
+        foreach (var line in lines)
+            DrawLine(line.Start, line.End, line.Color, line.Width);
+
+        lines.Clear();
     }
-    
-    private void DebugLinesSetup(Vector2 movementPosition, Vector2I tilePoint)
+
+    void DebugLinesSetup(Vector2 movementPosition, Vector2I tilePoint)
     {
         var localCharLinePos = ToLocal(Position + tilePoint);
         var localMovementPos = ToLocal(movementPosition + tilePoint);
-        lines.Add(new debugLine(localCharLinePos, localMovementPos, Colors.Orange, 2f));
+
+        lines.Add(new DebugLine(
+            start: localCharLinePos, 
+            end: localMovementPos, 
+            color: Colors.Orange, 
+            width: 2));
     }
-    
-    public override void _Draw(){
-        foreach (var line in lines)
-        {
-            DrawLine(line.start, line.end, line.color, line.width);
-        }
-        lines.Clear();
-    }
-#endregion Debugging
+    #endregion Debugging
 }

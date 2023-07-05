@@ -1,0 +1,57 @@
+[gd_scene load_steps=5 format=3 uid="uid://bp1ivcjg6y2cy"]
+
+[ext_resource type="Script" path="res://Scripts/RTS/Walker/Walker.cs" id="1_e14od"]
+[ext_resource type="Texture2D" uid="uid://ba6p5egqwa5pb" path="res://Sprites/walkman.png" id="2_0fgp7"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gii3p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0fgp7")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0fgp7")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_elmjp"]
+size = Vector2(14, 10)
+
+[node name="Walkman" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_e14od")
+Debug = true
+MaxSpeed = 250.0
+Acceleration = 1000.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_gii3p")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_elmjp")
+
+[node name="DebugLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -23.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+horizontal_alignment = 1
+vertical_alignment = 1
