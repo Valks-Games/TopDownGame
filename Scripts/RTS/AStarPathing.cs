@@ -38,7 +38,8 @@ public partial class AStarPathing
         if (aStar.GetPointCount() <= 0)
             AStarConnectWalkablePoints(AStarAddWalkablePoint());
 
-        if (aStar.GetPointCount() > 0 && aStar.HasPoint(GetPointIndex(endCoord)) == false)
+        if (aStar.GetPointCount() > 0 && 
+            !aStar.HasPoint(GetPointIndex(endCoord)))
             return new List<Vector2>();
 
         //if (aStar.GetPointCount() > 0 && aStar.HasPoint(GetPointIndex(startCoord)) == false) DestuckCharacter(startCoord);
@@ -74,21 +75,27 @@ public partial class AStarPathing
 
     List<Vector2> AStarAddWalkablePoint()
     {
-        List<Vector2> points = new List<Vector2>();
+        var points = new List<Vector2>();
+
         for (int y = 0; y < (int)endPoint.Y; y++)
         {
             for (int x = 0; x < (int)endPoint.X; x++)
             {
-                var wcol = World.Instance.Trees.GetCellTileData(0, new Vector2I(x, y));
+                var wcol = World.Instance.Trees.GetCellTileData(
+                    layer: 0, 
+                    coords: new Vector2I(x, y));
+                
                 if (wcol == null)
                 {
-                    Vector2 result = new Vector2(x, y);
+                    var result = new Vector2(x, y);
                     points.Add(result);
+
                     int pointIndex = GetPointIndex(x, y);
                     aStar.AddPoint(pointIndex, result);
                 }
             }
         }
+
         return points;
     }
 
@@ -123,7 +130,11 @@ public partial class AStarPathing
                 {
                     var index = GetPointIndex(v);
                     var index2 = GetPointIndex(connectingPoint);
-                    aStar.ConnectPoints(GetPointIndex(v), GetPointIndex(connectingPoint), true);
+
+                    aStar.ConnectPoints(
+                        id: GetPointIndex(v),
+                        toId: GetPointIndex(connectingPoint), 
+                        bidirectional: true);
                 }
             }
         }
@@ -133,6 +144,7 @@ public partial class AStarPathing
     {
         int startID = GetPointIndex(startCoord);
         int endID = GetPointIndex(endCoord);
+
         return new List<Vector2>(aStar.GetPointPath(startID, endID));
     }
 }

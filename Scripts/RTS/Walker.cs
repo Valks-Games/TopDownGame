@@ -13,7 +13,6 @@ public partial class Walker : Monster
     public float ModifierMultiplier { get; set; } = 1;
     public float CalculatedMaxSpeed => MaxSpeed * ModifierMultiplier;
 
-
     protected override State InitialState() => Idle();
 
     #region Debugging
@@ -25,6 +24,7 @@ public partial class Walker : Monster
         public Vector2 end;
         public Color color;
         public float width;
+
         public DebugLine(Vector2 start, Vector2 end, Color color, float width)
         {
             this.start = start;
@@ -38,26 +38,30 @@ public partial class Walker : Monster
     {
         var localCharLinePos = ToLocal(Position + tilePoint);
         var localMovementPos = ToLocal(movementPosition + tilePoint);
-        debuglines.Add(new DebugLine(localCharLinePos, localMovementPos, Colors.Orange, 2f));
+
+        debuglines.Add(new DebugLine(
+            localCharLinePos, 
+            localMovementPos, 
+            Colors.Orange, 
+            2f));
     }
 
     public override void _Process(double delta)
     {
         if (OS.IsDebugBuild() == true || Debug == true)
             QueueRedraw();
+
         base._Process(delta);
     }
 
     public override void _Draw()
     {
-
         if (OS.IsDebugBuild() == false || Debug == false)
             return;
 
         foreach (var line in debuglines)
-        {
             DrawLine(line.start, line.end, line.color, line.width);
-        }
+
         debuglines.Clear();
     }
     #endregion Debugging

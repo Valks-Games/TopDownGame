@@ -2,7 +2,6 @@ namespace RTS;
 
 public partial class Walker
 {
-
     int currentPathIndex = 0;
     bool hasRun = false;
     bool isRunning = false;
@@ -17,7 +16,10 @@ public partial class Walker
 
     void GetPathing()
     {
-        path = pathingAlgorithm.TriggerWalkToPoint(GetGlobalPositionAsCoord(), (Vector2I)(player.Position / World.TileSize));
+        path = pathingAlgorithm.TriggerWalkToPoint(
+            startCoord: GetGlobalPositionAsCoord(), 
+            endCoord: (Vector2I)(player.Position / World.TileSize));
+
         currentPathIndex = 0;
     }
 
@@ -25,7 +27,11 @@ public partial class Walker
     {
         if (Debug)
             for (int i = 0; i < path.Count - 1; i++)
-                debuglines.Add(new DebugLine(ToLocal(path[i] * World.TileSize), ToLocal(path[i + 1] * World.TileSize), Colors.Orange, 2f));
+                debuglines.Add(new DebugLine(
+                    ToLocal(path[i] * World.TileSize), 
+                    ToLocal(path[i + 1] * World.TileSize), 
+                    Colors.Orange, 
+                    2f));
 
         if (currentPathIndex == path.Count)
         {
@@ -34,15 +40,15 @@ public partial class Walker
             isRunning = false;
             return;
         }
+
         if (currentPathIndex < path.Count)
         {
             var charPos = GetGlobalPositionAsCoord();
             var direction = path[currentPathIndex] - charPos;
             AccelerateToVelocity(direction);
+
             if (((Vector2)charPos).DistanceTo(path[currentPathIndex]) < 1)
-            {
                 currentPathIndex++;
-            }
         }
     }
 
@@ -65,5 +71,4 @@ public partial class Walker
 
     void Decelerate() => AccelerateToVelocity(Vector2.Zero);
     Vector2I GetGlobalPositionAsCoord() => ((Vector2I)(GlobalPosition / World.TileSize));
-
 }

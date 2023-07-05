@@ -3,13 +3,14 @@ namespace RTS;
 public partial class Walker
 {
     int remainingSpeed = 0;
+
     // calculation Lists
     List<Vector2I> currentSpeedCoordinates;
     List<Vector2I> nextSpeedCoordinates;
     List<Vector2I> collectedCoordinates;
+
     // Path to each point in the calculated circle, with the last point being the path to the player
     public Dictionary<Vector2I, PathPoint> pathPoints { get; private set; }
-
 
     /// <summary>
     /// First use CalculateMovableCoordinates() to calculate the path to the player
@@ -20,9 +21,8 @@ public partial class Walker
     public PathPoint GetPathPoint(Vector2I point)
     {
         if (pathPoints.ContainsKey(point))
-        {
             return pathPoints[point];
-        }
+
         return null;
     }
 
@@ -34,8 +34,6 @@ public partial class Walker
     /// <returns></returns>
     public PathPoint GetPathPointWorldBased(Vector2 point) =>
         GetPathPoint((Vector2I)(point / World.TileSize));
-
-
 
     public List<Vector2I> CalculateMovableCoordinates()
     {
@@ -69,12 +67,14 @@ public partial class Walker
     void AddVectorToLists(Vector2I coord, PathPoint previousPoint = null, int dist = 0)
     {
         collectedCoordinates.Add(coord);
+
         PathPoint movePoint = new PathPoint()
         {
             point = coord,
             previousPoint = previousPoint,
             distance = dist
         };
+
         pathPoints.Add(movePoint.point, movePoint);
     }
 
@@ -89,7 +89,6 @@ public partial class Walker
         {
             foreach (Vector2I coord in currentSpeedCoordinates)
             {
-
                 // We could make this a dynamic function, because now it's limited to one tile walking distance, but our char can walk further
                 // in one step... We should calculate all potential Vector2I's the character could run then run the validation on all of them
                 // for the current coordinate.
@@ -106,7 +105,6 @@ public partial class Walker
             remainingSpeed--;
             currentSpeedCoordinates = new List<Vector2I>(nextSpeedCoordinates);
             nextSpeedCoordinates.Clear();
-
         }
     }
 
@@ -131,6 +129,7 @@ public partial class Walker
             AddVectorToLists(coord, previousPoint, distance);
             return coord == (Vector2I)(player.Position / World.TileSize);
         }
+
         return false;
     }
 }
