@@ -1,5 +1,3 @@
-https://github.com/valkyrienyanko/TopDownGame/assets/6277739/9c213d99-8974-4291-864f-fd6cbe0e70f7
-
 ## Roadmap
 Player
 - Bow animation
