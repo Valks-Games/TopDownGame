@@ -1,3 +1,6 @@
+> [!NOTE]
+> This project has been archived because it is out of sync with [CSharpGodotTools/Template](https://github.com/CSharpGodotTools/Template). Template has had some improvements since then so sync issues should not be a problem in the future.
+
 ## Roadmap
 Player
 - Bow animation
@@ -20,8 +23,6 @@ git clone --recursive https://github.com/valkyrienyanko/TopDownGame
 If you would like to contribute please talk to me over Discord at va#9904
 
 [Projects Coding Style](https://github.com/Valks-Games/sankari/wiki/Code-Style)
-
-If you have any questions, talk to me over Discord (`va#9904`)
 
 ## Credits
 Game icons from https://game-icons.net/ (this will be moved to in-game credits eventually)
